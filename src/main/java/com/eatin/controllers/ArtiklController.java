@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +28,7 @@ public class ArtiklController {
 	private ArtiklRepository artiklRepository;
 
 	@GetMapping("artikl")
-	public Page<ArtiklDTO> getArtikl(@RequestParam(defaultValue = "1") @Min(1) int page,
+	public ResponseEntity<Page<ArtiklDTO>> getArtikl(@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(defaultValue = "false") Boolean descending,
 			@RequestParam(defaultValue = "ID") SortBy sortBy, @RequestParam(required = false) String search) {
 
@@ -42,6 +44,7 @@ public class ArtiklController {
 			artikli = this.artiklRepository.findAll(pageable);
 		}
 
-		return ObjectMapperUtils.mapPage(artikli, ArtiklDTO.class);
+		Page<ArtiklDTO> responsePage = ObjectMapperUtils.mapPage(artikli, ArtiklDTO.class);
+		return new ResponseEntity<Page<ArtiklDTO>>(responsePage, HttpStatus.OK);
 	}
 }
