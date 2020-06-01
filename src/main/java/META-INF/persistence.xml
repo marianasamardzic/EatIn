@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="Eatin">
+		<class>com.eatin.jpa.Artikl</class>
+		<class>com.eatin.jpa.Dostavljac</class>
+		<class>com.eatin.jpa.Ima_priloge</class>
+		<class>com.eatin.jpa.Je_tipa</class>
+		<class>com.eatin.jpa.Klijent</class>
+		<class>com.eatin.jpa.Klijent_se_nalazi</class>
+		<class>com.eatin.jpa.Korisnik</class>
+		<class>com.eatin.jpa.Lokacija</class>
+		<class>com.eatin.jpa.Mera</class>
+		<class>com.eatin.jpa.Moze_biti_mere</class>
+		<class>com.eatin.jpa.Moze_sadrzati_priloge</class>
+		<class>com.eatin.jpa.Porudzbina</class>
+		<class>com.eatin.jpa.Prilog</class>
+		<class>com.eatin.jpa.Radi</class>
+		<class>com.eatin.jpa.Restoran</class>
+		<class>com.eatin.jpa.Restoran_se_nalazi</class>
+		<class>com.eatin.jpa.Sadrzi</class>
+		<class>com.eatin.jpa.Tip_artikla</class>
+		<class>com.eatin.jpa.Tip_datuma</class>
+		<class>com.eatin.jpa.Tip_restorana</class>
+		<class>com.eatin.jpa.Uloga</class>
+		<class>com.eatin.jpa.Zaposleni</class>
+	</persistence-unit>
+</persistence>
