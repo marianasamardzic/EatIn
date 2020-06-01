@@ -28,13 +28,19 @@ public class ArtiklController {
 	@GetMapping("artikl")
 	public Page<ArtiklDTO> getArtikl(@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(defaultValue = "false") Boolean descending,
-			@RequestParam(defaultValue = "ID") SortBy sortBy) {
+			@RequestParam(defaultValue = "ID") SortBy sortBy, @RequestParam(required = false) String search) {
 
 		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label));
 		if (descending) {
 			pageable = PageRequest.of(page - 1, 5, Sort.by("idArtikla").descending());
 		}
-		Page<Artikl> artikli = this.artiklRepository.findAll(pageable);
+
+		Page<Artikl> artikli;
+		if (search != null) {
+			artikli = this.artiklRepository.findBynazivArtiklaContainingIgnoreCase(search, pageable);
+		} else {
+			artikli = this.artiklRepository.findAll(pageable);
+		}
 
 		return ObjectMapperUtils.mapPage(artikli, ArtiklDTO.class);
 	}
