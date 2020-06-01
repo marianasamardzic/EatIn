@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eatin.ObjectMapperUtils;
+import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.TipArtiklaDTO;
 import com.eatin.repository.TipArtiklaRepository;
 

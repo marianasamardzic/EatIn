@@ -1,4 +1,4 @@
-package com.eatin;
+package com.eatin.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
