@@ -29,6 +29,7 @@ import com.eatin.repository.UlogaRepository;
 import com.eatin.security.JwtUtil;
 
 @CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AuthenticationController {
 

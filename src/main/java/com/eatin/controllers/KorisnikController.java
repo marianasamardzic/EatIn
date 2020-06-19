@@ -11,6 +11,7 @@ import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.KorisnikDTO;
 import com.eatin.repository.KorisnikRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class KorisnikController {
 

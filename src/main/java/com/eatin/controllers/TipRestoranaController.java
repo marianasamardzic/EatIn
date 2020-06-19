@@ -14,6 +14,7 @@ import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.TipRestoranaDTO;
 import com.eatin.repository.TipRestoranaRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Validated
 @RestController
 public class TipRestoranaController {

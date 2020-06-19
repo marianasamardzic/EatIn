@@ -29,6 +29,7 @@ import com.eatin.jpa.Restoran_se_nalazi;
 import com.eatin.repository.RestoranRepository;
 import com.eatin.repository.RestoranSeNalaziRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @Validated
 public class RestoranController {

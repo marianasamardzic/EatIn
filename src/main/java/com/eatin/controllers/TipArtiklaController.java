@@ -14,6 +14,7 @@ import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.TipArtiklaDTO;
 import com.eatin.repository.TipArtiklaRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Validated
 @RestController
 public class TipArtiklaController {

@@ -19,6 +19,7 @@ import com.eatin.jpa.Lokacija;
 import com.eatin.repository.KlijentSeNalaziRepository;
 import com.eatin.repository.KorisnikRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class LokacijaController {
 

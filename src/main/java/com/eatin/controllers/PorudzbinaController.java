@@ -28,6 +28,7 @@ import com.eatin.jpa.Prilog;
 import com.eatin.repository.ImaPrilogeRepository;
 import com.eatin.repository.PorudzbinaRepository;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @Validated
 public class PorudzbinaController {

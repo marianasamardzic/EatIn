@@ -36,6 +36,7 @@ import com.eatin.repository.MozeBitiMereRepository;
 import com.eatin.repository.MozeSadrzatiPrilogeRepository;
 
 @Validated
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ArtiklController {
 
