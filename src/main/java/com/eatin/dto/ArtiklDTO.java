@@ -13,5 +13,6 @@ public class ArtiklDTO {
 	private int tipArtiklaId;
 	private String slikaArtikla;
 	private int restoranId;
+	private TipArtiklaDTO tipArtikla;
 
 }
