@@ -14,5 +14,5 @@ public class CreatePorudzbinaDTO {
 	private String vremePrijemaPorudzbine;
 	private LokacijaDTO lokacija;
 //	//lista stavki
-	private List<SadrziDTO> sadrzis;
+	private List<StavkaPorudzbineDTO> sadrzis;
 }

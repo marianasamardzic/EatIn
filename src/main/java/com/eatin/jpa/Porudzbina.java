@@ -1,15 +1,28 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Porudzbina database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Porudzbina.findAll", query="SELECT p FROM Porudzbina p")
 public class Porudzbina implements Serializable {
@@ -50,95 +63,7 @@ public class Porudzbina implements Serializable {
 
 	//bi-directional many-to-one association to Sadrzi
 	@OneToMany(mappedBy="porudzbina")
-	private List<Sadrzi> sadrzis;
+	private List<StavkaPorudzbine> stavkePorudzbine;
 
-	public Porudzbina() {
-	}
-
-	public int getIdPorudzbine() {
-		return this.idPorudzbine;
-	}
-
-	public void setIdPorudzbine(int idPorudzbine) {
-		this.idPorudzbine = idPorudzbine;
-	}
-
-	public String getStatusPorudzbine() {
-		return this.statusPorudzbine;
-	}
-
-	public void setStatusPorudzbine(String statusPorudzbine) {
-		this.statusPorudzbine = statusPorudzbine;
-	}
-
-	public BigDecimal getUkupnaCena() {
-		return this.ukupnaCena;
-	}
-
-	public void setUkupnaCena(BigDecimal ukupnaCena) {
-		this.ukupnaCena = ukupnaCena;
-	}
-
-	public String getVremeIsporukePorudzbine() {
-		return this.vremeIsporukePorudzbine;
-	}
-
-	public void setVremeIsporukePorudzbine(String vremeIsporukePorudzbine) {
-		this.vremeIsporukePorudzbine = vremeIsporukePorudzbine;
-	}
-
-	public String getVremePrijemaPorudzbine() {
-		return this.vremePrijemaPorudzbine;
-	}
-
-	public void setVremePrijemaPorudzbine(String vremePrijemaPorudzbine) {
-		this.vremePrijemaPorudzbine = vremePrijemaPorudzbine;
-	}
-
-	public Dostavljac getDostavljac() {
-		return this.dostavljac;
-	}
-
-	public void setDostavljac(Dostavljac dostavljac) {
-		this.dostavljac = dostavljac;
-	}
-
-	public Klijent getKlijent() {
-		return this.klijent;
-	}
-
-	public void setKlijent(Klijent klijent) {
-		this.klijent = klijent;
-	}
-
-	public Lokacija getLokacija() {
-		return this.lokacija;
-	}
-
-	public void setLokacija(Lokacija lokacija) {
-		this.lokacija = lokacija;
-	}
-
-	public List<Sadrzi> getSadrzis() {
-		return this.sadrzis;
-	}
-
-	public void setSadrzis(List<Sadrzi> sadrzis) {
-		this.sadrzis = sadrzis;
-	}
-
-	public Sadrzi addSadrzi(Sadrzi sadrzi) {
-		getSadrzis().add(sadrzi);
-		sadrzi.setPorudzbina(this);
-
-		return sadrzi;
-	}
-
-	public Sadrzi removeSadrzi(Sadrzi sadrzi) {
-		getSadrzis().remove(sadrzi);
-		sadrzi.setPorudzbina(null);
-
-		return sadrzi;
-	}
 
 }

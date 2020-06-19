@@ -17,7 +17,7 @@
 		<class>com.eatin.jpa.Radi</class>
 		<class>com.eatin.jpa.Restoran</class>
 		<class>com.eatin.jpa.Restoran_se_nalazi</class>
-		<class>com.eatin.jpa.Sadrzi</class>
+		<class>com.eatin.jpa.StavkaPorudzbine</class>
 		<class>com.eatin.jpa.Tip_artikla</class>
 		<class>com.eatin.jpa.Tip_datuma</class>
 		<class>com.eatin.jpa.Tip_restorana</class>

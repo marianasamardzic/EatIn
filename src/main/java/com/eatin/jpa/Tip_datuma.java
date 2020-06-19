@@ -1,14 +1,25 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Tip_datuma database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Tip_datuma.findAll", query="SELECT t FROM Tip_datuma t")
 public class Tip_datuma implements Serializable {
@@ -27,45 +38,5 @@ public class Tip_datuma implements Serializable {
 	@OneToMany(mappedBy="tipDatuma")
 	private List<Radi> radis;
 
-	public Tip_datuma() {
-	}
-
-	public int getIdTipaDatuma() {
-		return this.idTipaDatuma;
-	}
-
-	public void setIdTipaDatuma(int idTipaDatuma) {
-		this.idTipaDatuma = idTipaDatuma;
-	}
-
-	public String getOpisTipaDatuma() {
-		return this.opisTipaDatuma;
-	}
-
-	public void setOpisTipaDatuma(String opisTipaDatuma) {
-		this.opisTipaDatuma = opisTipaDatuma;
-	}
-
-	public List<Radi> getRadis() {
-		return this.radis;
-	}
-
-	public void setRadis(List<Radi> radis) {
-		this.radis = radis;
-	}
-
-	public Radi addRadi(Radi radi) {
-		getRadis().add(radi);
-		radi.setTipDatuma(this);
-
-		return radi;
-	}
-
-	public Radi removeRadi(Radi radi) {
-		getRadis().remove(radi);
-		radi.setTipDatuma(null);
-
-		return radi;
-	}
 
 }

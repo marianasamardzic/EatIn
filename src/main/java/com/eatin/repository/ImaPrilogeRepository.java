@@ -8,5 +8,5 @@ import com.eatin.jpa.Ima_priloge;
 
 public interface ImaPrilogeRepository extends JpaRepository<Ima_priloge, Integer> {
 
-	Collection<Ima_priloge> findBySadrzi_idSadrzi(int sadrzi);
+	Collection<Ima_priloge> findByStavkaPorudzbine_idStavkePorudzbine(int sadrzi);
 }

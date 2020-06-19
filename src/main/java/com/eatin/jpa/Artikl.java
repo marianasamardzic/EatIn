@@ -1,15 +1,28 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Artikl database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Artikl.findAll", query="SELECT a FROM Artikl a")
 public class Artikl implements Serializable {
@@ -50,123 +63,7 @@ public class Artikl implements Serializable {
 
 	//bi-directional many-to-one association to Sadrzi
 	@OneToMany(mappedBy="artikl")
-	private List<Sadrzi> sadrzis;
+	private List<StavkaPorudzbine> sadrzis;
 
-	public Artikl() {
-	}
-
-	public int getIdArtikla() {
-		return this.idArtikla;
-	}
-
-	public void setIdArtikla(int idArtikla) {
-		this.idArtikla = idArtikla;
-	}
-
-	public BigDecimal getCenaArtikla() {
-		return this.cenaArtikla;
-	}
-
-	public void setCenaArtikla(BigDecimal cenaArtikla) {
-		this.cenaArtikla = cenaArtikla;
-	}
-
-	public String getNazivArtikla() {
-		return this.nazivArtikla;
-	}
-
-	public void setNazivArtikla(String nazivArtikla) {
-		this.nazivArtikla = nazivArtikla;
-	}
-
-	public String getSlikaArtikla() {
-		return this.slikaArtikla;
-	}
-
-	public void setSlikaArtikla(String slikaArtikla) {
-		this.slikaArtikla = slikaArtikla;
-	}
-
-	public Restoran getRestoran() {
-		return this.restoran;
-	}
-
-	public void setRestoran(Restoran restoran) {
-		this.restoran = restoran;
-	}
-
-	public Tip_artikla getTipArtikla() {
-		return this.tipArtikla;
-	}
-
-	public void setTipArtikla(Tip_artikla tipArtikla) {
-		this.tipArtikla = tipArtikla;
-	}
-
-	public List<Moze_biti_mere> getMozeBitiMeres() {
-		return this.mozeBitiMeres;
-	}
-
-	public void setMozeBitiMeres(List<Moze_biti_mere> mozeBitiMeres) {
-		this.mozeBitiMeres = mozeBitiMeres;
-	}
-
-	public Moze_biti_mere addMozeBitiMere(Moze_biti_mere mozeBitiMere) {
-		getMozeBitiMeres().add(mozeBitiMere);
-		mozeBitiMere.setArtikl(this);
-
-		return mozeBitiMere;
-	}
-
-	public Moze_biti_mere removeMozeBitiMere(Moze_biti_mere mozeBitiMere) {
-		getMozeBitiMeres().remove(mozeBitiMere);
-		mozeBitiMere.setArtikl(null);
-
-		return mozeBitiMere;
-	}
-
-	public List<Moze_sadrzati_priloge> getMozeSadrzatiPriloges() {
-		return this.mozeSadrzatiPriloges;
-	}
-
-	public void setMozeSadrzatiPriloges(List<Moze_sadrzati_priloge> mozeSadrzatiPriloges) {
-		this.mozeSadrzatiPriloges = mozeSadrzatiPriloges;
-	}
-
-	public Moze_sadrzati_priloge addMozeSadrzatiPriloge(Moze_sadrzati_priloge mozeSadrzatiPriloge) {
-		getMozeSadrzatiPriloges().add(mozeSadrzatiPriloge);
-		mozeSadrzatiPriloge.setArtikl(this);
-
-		return mozeSadrzatiPriloge;
-	}
-
-	public Moze_sadrzati_priloge removeMozeSadrzatiPriloge(Moze_sadrzati_priloge mozeSadrzatiPriloge) {
-		getMozeSadrzatiPriloges().remove(mozeSadrzatiPriloge);
-		mozeSadrzatiPriloge.setArtikl(null);
-
-		return mozeSadrzatiPriloge;
-	}
-
-	public List<Sadrzi> getSadrzis() {
-		return this.sadrzis;
-	}
-
-	public void setSadrzis(List<Sadrzi> sadrzis) {
-		this.sadrzis = sadrzis;
-	}
-
-	public Sadrzi addSadrzi(Sadrzi sadrzi) {
-		getSadrzis().add(sadrzi);
-		sadrzi.setArtikl(this);
-
-		return sadrzi;
-	}
-
-	public Sadrzi removeSadrzi(Sadrzi sadrzi) {
-		getSadrzis().remove(sadrzi);
-		sadrzi.setArtikl(null);
-
-		return sadrzi;
-	}
 
 }

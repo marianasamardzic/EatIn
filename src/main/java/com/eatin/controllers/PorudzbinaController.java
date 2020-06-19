@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.PorudzbinaDTO;
 import com.eatin.dto.PrilogDTO;
-import com.eatin.dto.SadrziDTO;
+import com.eatin.dto.StavkaPorudzbineDTO;
 import com.eatin.enums.StatusPorudzbine;
 import com.eatin.jpa.Ima_priloge;
+import com.eatin.jpa.Porudzbina;
 import com.eatin.jpa.Prilog;
 import com.eatin.repository.ImaPrilogeRepository;
 import com.eatin.repository.PorudzbinaRepository;
@@ -46,13 +47,13 @@ public class PorudzbinaController {
 		Pageable pageable = PageRequest.of(page - 1, 5);
 
 		Page<PorudzbinaDTO> porudzbineDTO;
+		Page<Porudzbina> entiteti;
 		if (statusPorudzbine != null) {
-			porudzbineDTO = ObjectMapperUtils.mapPage(
-					this.porudzbinaRepository.findByStatusPorudzbineIgnoreCase(statusPorudzbine.label, pageable),
-					PorudzbinaDTO.class);
+			entiteti = this.porudzbinaRepository.findByStatusPorudzbineIgnoreCase(statusPorudzbine.label, pageable);
 		} else {
-			porudzbineDTO = ObjectMapperUtils.mapPage(this.porudzbinaRepository.findAll(pageable), PorudzbinaDTO.class);
+			entiteti = this.porudzbinaRepository.findAll(pageable);
 		}
+		porudzbineDTO = ObjectMapperUtils.mapPage(entiteti, PorudzbinaDTO.class);
 
 		// prolazak kroz svaku porudzbinu
 		Iterator<PorudzbinaDTO> iterator = porudzbineDTO.getContent().iterator();
@@ -60,15 +61,15 @@ public class PorudzbinaController {
 			PorudzbinaDTO porudzbina = iterator.next();
 
 			// prolazak kroz svaku stavku porudzbine
-			List<SadrziDTO> sadrzi = porudzbina.getSadrzis();
-			Iterator<SadrziDTO> iteratorSadrzi = sadrzi.iterator();
-			while (iteratorSadrzi.hasNext()) {
+			List<StavkaPorudzbineDTO> stavke = porudzbina.getStavkePorudzbine();
+			Iterator<StavkaPorudzbineDTO> iteratorStavke = stavke.iterator();
+			while (iteratorStavke.hasNext()) {
 
 				// dodavanje priloga u stavku
-				SadrziDTO stavka = iteratorSadrzi.next();
+				StavkaPorudzbineDTO stavka = iteratorStavke.next();
 
 				Collection<Ima_priloge> imaPriloge = this.imaPrilogeRepository
-						.findBySadrzi_idSadrzi(stavka.getIdSadrzi());
+						.findByStavkaPorudzbine_idStavkePorudzbine(stavka.getIdStavkePorudzbine());
 				List<Prilog> prilozi = new ArrayList<>();
 				Iterator<Ima_priloge> imaPrilogeIterator = imaPriloge.iterator();
 				while (imaPrilogeIterator.hasNext()) {

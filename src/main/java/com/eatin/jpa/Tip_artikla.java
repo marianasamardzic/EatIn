@@ -1,14 +1,25 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Tip_artikla database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Tip_artikla.findAll", query="SELECT t FROM Tip_artikla t")
 public class Tip_artikla implements Serializable {
@@ -27,45 +38,5 @@ public class Tip_artikla implements Serializable {
 	@OneToMany(mappedBy="tipArtikla")
 	private List<Artikl> artikls;
 
-	public Tip_artikla() {
-	}
-
-	public int getIdTipaArtikla() {
-		return this.idTipaArtikla;
-	}
-
-	public void setIdTipaArtikla(int idTipaArtikla) {
-		this.idTipaArtikla = idTipaArtikla;
-	}
-
-	public String getOpisTipaArtikla() {
-		return this.opisTipaArtikla;
-	}
-
-	public void setOpisTipaArtikla(String opisTipaArtikla) {
-		this.opisTipaArtikla = opisTipaArtikla;
-	}
-
-	public List<Artikl> getArtikls() {
-		return this.artikls;
-	}
-
-	public void setArtikls(List<Artikl> artikls) {
-		this.artikls = artikls;
-	}
-
-	public Artikl addArtikl(Artikl artikl) {
-		getArtikls().add(artikl);
-		artikl.setTipArtikla(this);
-
-		return artikl;
-	}
-
-	public Artikl removeArtikl(Artikl artikl) {
-		getArtikls().remove(artikl);
-		artikl.setTipArtikla(null);
-
-		return artikl;
-	}
 
 }

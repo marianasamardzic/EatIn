@@ -19,5 +19,5 @@ public class PorudzbinaDTO {
 	private KlijentDTO klijent;
 	private LokacijaDTO lokacija;
 //	//lista stavki
-	private List<SadrziDTO> sadrzis;
+	private List<StavkaPorudzbineDTO> stavkePorudzbine;
 }

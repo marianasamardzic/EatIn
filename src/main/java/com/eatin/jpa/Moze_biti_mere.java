@@ -1,13 +1,24 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 /**
  * The persistent class for the Moze_biti_mere database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Moze_biti_mere.findAll", query="SELECT m FROM Moze_biti_mere m")
 public class Moze_biti_mere implements Serializable {
@@ -28,32 +39,5 @@ public class Moze_biti_mere implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_mere")
 	private Mera mera;
-
-	public Moze_biti_mere() {
-	}
-
-	public int getIdMozeBitiMere() {
-		return this.idMozeBitiMere;
-	}
-
-	public void setIdMozeBitiMere(int idMozeBitiMere) {
-		this.idMozeBitiMere = idMozeBitiMere;
-	}
-
-	public Artikl getArtikl() {
-		return this.artikl;
-	}
-
-	public void setArtikl(Artikl artikl) {
-		this.artikl = artikl;
-	}
-
-	public Mera getMera() {
-		return this.mera;
-	}
-
-	public void setMera(Mera mera) {
-		this.mera = mera;
-	}
 
 }

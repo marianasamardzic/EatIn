@@ -5,9 +5,9 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class SadrziDTO {
+public class StavkaPorudzbineDTO {
 
-	private int idSadrzi;
+	private int idStavkePorudzbine;
 	private ArtiklDTO artikl;
 
 	private MeraDTO mera;

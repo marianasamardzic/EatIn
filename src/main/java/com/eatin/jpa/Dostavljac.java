@@ -1,14 +1,27 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Dostavljac database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Dostavljac.findAll", query="SELECT d FROM Dostavljac d")
 public class Dostavljac implements Serializable {
@@ -31,54 +44,5 @@ public class Dostavljac implements Serializable {
 	//bi-directional many-to-one association to Porudzbina
 	@OneToMany(mappedBy="dostavljac")
 	private List<Porudzbina> porudzbinas;
-
-	public Dostavljac() {
-	}
-
-	public int getIdDostavljaca() {
-		return this.idDostavljaca;
-	}
-
-	public void setIdDostavljaca(int idDostavljaca) {
-		this.idDostavljaca = idDostavljaca;
-	}
-
-	public String getPrevoznoSredstvo() {
-		return this.prevoznoSredstvo;
-	}
-
-	public void setPrevoznoSredstvo(String prevoznoSredstvo) {
-		this.prevoznoSredstvo = prevoznoSredstvo;
-	}
-
-	public Korisnik getKorisnik() {
-		return this.korisnik;
-	}
-
-	public void setKorisnik(Korisnik korisnik) {
-		this.korisnik = korisnik;
-	}
-
-	public List<Porudzbina> getPorudzbinas() {
-		return this.porudzbinas;
-	}
-
-	public void setPorudzbinas(List<Porudzbina> porudzbinas) {
-		this.porudzbinas = porudzbinas;
-	}
-
-	public Porudzbina addPorudzbina(Porudzbina porudzbina) {
-		getPorudzbinas().add(porudzbina);
-		porudzbina.setDostavljac(this);
-
-		return porudzbina;
-	}
-
-	public Porudzbina removePorudzbina(Porudzbina porudzbina) {
-		getPorudzbinas().remove(porudzbina);
-		porudzbina.setDostavljac(null);
-
-		return porudzbina;
-	}
 
 }

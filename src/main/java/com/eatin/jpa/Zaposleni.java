@@ -1,13 +1,26 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Zaposleni database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Zaposleni.findAll", query="SELECT z FROM Zaposleni z")
 public class Zaposleni implements Serializable {
@@ -32,39 +45,5 @@ public class Zaposleni implements Serializable {
 	@JoinColumn(name="id_restorana")
 	private Restoran restoran;
 
-	public Zaposleni() {
-	}
-
-	public int getIdZaposlenog() {
-		return this.idZaposlenog;
-	}
-
-	public void setIdZaposlenog(int idZaposlenog) {
-		this.idZaposlenog = idZaposlenog;
-	}
-
-	public String getFunkcijaZaposlenog() {
-		return this.funkcijaZaposlenog;
-	}
-
-	public void setFunkcijaZaposlenog(String funkcijaZaposlenog) {
-		this.funkcijaZaposlenog = funkcijaZaposlenog;
-	}
-
-	public Korisnik getKorisnik() {
-		return this.korisnik;
-	}
-
-	public void setKorisnik(Korisnik korisnik) {
-		this.korisnik = korisnik;
-	}
-
-	public Restoran getRestoran() {
-		return this.restoran;
-	}
-
-	public void setRestoran(Restoran restoran) {
-		this.restoran = restoran;
-	}
 
 }

@@ -1,13 +1,25 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Radi database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Radi.findAll", query="SELECT r FROM Radi r")
 public class Radi implements Serializable {
@@ -34,48 +46,5 @@ public class Radi implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tipa_datuma")
 	private Tip_datuma tipDatuma;
-
-	public Radi() {
-	}
-
-	public int getIdRadi() {
-		return this.idRadi;
-	}
-
-	public void setIdRadi(int idRadi) {
-		this.idRadi = idRadi;
-	}
-
-	public String getVremeDo() {
-		return this.vremeDo;
-	}
-
-	public void setVremeDo(String vremeDo) {
-		this.vremeDo = vremeDo;
-	}
-
-	public String getVremeOd() {
-		return this.vremeOd;
-	}
-
-	public void setVremeOd(String vremeOd) {
-		this.vremeOd = vremeOd;
-	}
-
-	public Restoran getRestoran() {
-		return this.restoran;
-	}
-
-	public void setRestoran(Restoran restoran) {
-		this.restoran = restoran;
-	}
-
-	public Tip_datuma getTipDatuma() {
-		return this.tipDatuma;
-	}
-
-	public void setTipDatuma(Tip_datuma tipDatuma) {
-		this.tipDatuma = tipDatuma;
-	}
 
 }

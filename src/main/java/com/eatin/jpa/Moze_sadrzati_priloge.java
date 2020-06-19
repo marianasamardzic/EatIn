@@ -1,13 +1,24 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 /**
  * The persistent class for the Moze_sadrzati_priloge database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Moze_sadrzati_priloge.findAll", query="SELECT m FROM Moze_sadrzati_priloge m")
 public class Moze_sadrzati_priloge implements Serializable {
@@ -28,32 +39,5 @@ public class Moze_sadrzati_priloge implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_priloga")
 	private Prilog prilog;
-
-	public Moze_sadrzati_priloge() {
-	}
-
-	public int getIdMozeSadrzatiPriloge() {
-		return this.idMozeSadrzatiPriloge;
-	}
-
-	public void setIdMozeSadrzatiPriloge(int idMozeSadrzatiPriloge) {
-		this.idMozeSadrzatiPriloge = idMozeSadrzatiPriloge;
-	}
-
-	public Artikl getArtikl() {
-		return this.artikl;
-	}
-
-	public void setArtikl(Artikl artikl) {
-		this.artikl = artikl;
-	}
-
-	public Prilog getPrilog() {
-		return this.prilog;
-	}
-
-	public void setPrilog(Prilog prilog) {
-		this.prilog = prilog;
-	}
 
 }

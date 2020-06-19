@@ -1,13 +1,24 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 /**
  * The persistent class for the Restoran_se_nalazi database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Restoran_se_nalazi.findAll", query="SELECT r FROM Restoran_se_nalazi r")
 public class Restoran_se_nalazi implements Serializable {
@@ -28,32 +39,5 @@ public class Restoran_se_nalazi implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_restorana")
 	private Restoran restoran;
-
-	public Restoran_se_nalazi() {
-	}
-
-	public int getIdRestoranSeNalazi() {
-		return this.idRestoranSeNalazi;
-	}
-
-	public void setIdRestoranSeNalazi(int idRestoranSeNalazi) {
-		this.idRestoranSeNalazi = idRestoranSeNalazi;
-	}
-
-	public Lokacija getLokacija() {
-		return this.lokacija;
-	}
-
-	public void setLokacija(Lokacija lokacija) {
-		this.lokacija = lokacija;
-	}
-
-	public Restoran getRestoran() {
-		return this.restoran;
-	}
-
-	public void setRestoran(Restoran restoran) {
-		this.restoran = restoran;
-	}
 
 }

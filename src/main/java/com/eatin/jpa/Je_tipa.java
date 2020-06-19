@@ -1,13 +1,24 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 /**
  * The persistent class for the Je_tipa database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Je_tipa.findAll", query="SELECT j FROM Je_tipa j")
 public class Je_tipa implements Serializable {
@@ -28,32 +39,5 @@ public class Je_tipa implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_tipa_restorana")
 	private Tip_restorana tipRestorana;
-
-	public Je_tipa() {
-	}
-
-	public int getIdJeTipa() {
-		return this.idJeTipa;
-	}
-
-	public void setIdJeTipa(int idJeTipa) {
-		this.idJeTipa = idJeTipa;
-	}
-
-	public Restoran getRestoran() {
-		return this.restoran;
-	}
-
-	public void setRestoran(Restoran restoran) {
-		this.restoran = restoran;
-	}
-
-	public Tip_restorana getTipRestorana() {
-		return this.tipRestorana;
-	}
-
-	public void setTipRestorana(Tip_restorana tipRestorana) {
-		this.tipRestorana = tipRestorana;
-	}
 
 }

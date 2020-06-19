@@ -1,13 +1,25 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+
+import lombok.Data;
 
 
 /**
  * The persistent class for the Klijent_se_nalazi database table.
  * 
  */
+@Data
 @Entity
 @NamedQuery(name="Klijent_se_nalazi.findAll", query="SELECT k FROM Klijent_se_nalazi k")
 public class Klijent_se_nalazi implements Serializable {
@@ -31,40 +43,5 @@ public class Klijent_se_nalazi implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_lokacije")
 	private Lokacija lokacija;
-
-	public Klijent_se_nalazi() {
-	}
-
-	public int getIdKlijentSeNalazi() {
-		return this.idKlijentSeNalazi;
-	}
-
-	public void setIdKlijentSeNalazi(int idKlijentSeNalazi) {
-		this.idKlijentSeNalazi = idKlijentSeNalazi;
-	}
-
-	public boolean getAktuelnaAdresa() {
-		return this.aktuelnaAdresa;
-	}
-
-	public void setAktuelnaAdresa(boolean aktuelnaAdresa) {
-		this.aktuelnaAdresa = aktuelnaAdresa;
-	}
-
-	public Klijent getKlijent() {
-		return this.klijent;
-	}
-
-	public void setKlijent(Klijent klijent) {
-		this.klijent = klijent;
-	}
-
-	public Lokacija getLokacija() {
-		return this.lokacija;
-	}
-
-	public void setLokacija(Lokacija lokacija) {
-		this.lokacija = lokacija;
-	}
 
 }
