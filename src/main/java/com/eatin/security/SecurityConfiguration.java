@@ -36,8 +36,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				// authorize requests
 				.and().authorizeRequests()
+				.antMatchers("/lokacija").hasAuthority("Klijent")
 				// permit all
-				.antMatchers("/login", "/register", "/korisnik").permitAll()
+				.antMatchers("/login", "/register").permitAll()
 				// authenticated
 				.anyRequest().authenticated();
 

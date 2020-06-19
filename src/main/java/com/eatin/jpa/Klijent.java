@@ -1,8 +1,16 @@
 package com.eatin.jpa;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 /**
@@ -14,14 +22,14 @@ import java.util.List;
 public class Klijent implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+//	@SequenceGenerator(name = "KORISNIK_IDKORISNIKA_GENERATOR", sequenceName = "Korisnik_sequence", allocationSize = 1)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="KORISNIK_IDKORISNIKA_GENERATOR")
 	@Id
-	@SequenceGenerator(name="KLIJENT_IDKLIJENTA_GENERATOR" )
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="KLIJENT_IDKLIJENTA_GENERATOR")
 	@Column(name="id_klijenta")
 	private int idKlijenta;
 
 	//bi-directional one-to-one association to Korisnik
-	@OneToOne
+	@OneToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name="id_klijenta")
 	private Korisnik korisnik;
 

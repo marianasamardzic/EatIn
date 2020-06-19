@@ -7,11 +7,13 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +22,13 @@ import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.AuthenticationRequest;
 import com.eatin.dto.AuthenticationResponse;
 import com.eatin.dto.KorisnikDTO;
-import com.eatin.dto.KorisnikJWTDTO;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Uloga;
 import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.UlogaRepository;
 import com.eatin.security.JwtUtil;
 
+@CrossOrigin
 @RestController
 public class AuthenticationController {
 
@@ -40,6 +42,8 @@ public class AuthenticationController {
 	private KorisnikRepository korisnikRepository;
 	@Autowired
 	private UlogaRepository ulogaRepository;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
@@ -57,19 +61,19 @@ public class AuthenticationController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<KorisnikJWTDTO> registerUser(@Valid @RequestBody KorisnikDTO korisnikDTO) throws Exception {
+	public ResponseEntity<String> registerUser(@Valid @RequestBody KorisnikDTO korisnikDTO) throws Exception {
+
 		Korisnik korisnik = ObjectMapperUtils.map(korisnikDTO, Korisnik.class);
-		Optional<Uloga> uloga = ulogaRepository.findById(korisnikDTO.getUlogaId());
-		if (uloga == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+
+		Optional<Uloga> uloga = ulogaRepository.findById(1);
 		korisnik.setUloga(uloga.get());
-		korisnikRepository.save(korisnik);
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(korisnik.getEmailKorisnika());
-		final String jwt = jwtUtil.generateToken(userDetails);
-		KorisnikJWTDTO res = ObjectMapperUtils.map(korisnik, KorisnikJWTDTO.class);
-		res.setJwt(jwt);
-		return new ResponseEntity<>(res, HttpStatus.CREATED);
+
+		Korisnik sacuvaniKorisnik = korisnikRepository.save(korisnik);
+		jdbcTemplate
+				.execute("insert into Dostava.Klijent(id_klijenta) values(" + sacuvaniKorisnik.getIdKorisnika() + ");");
+
+		return new ResponseEntity<String>("Successfully added", HttpStatus.OK);
+
 	}
 
 }

@@ -1,11 +1,11 @@
 package com.eatin.enums;
 
-public enum SortBy {
+public enum SortByArtikl {
 	ID("idArtikla"), NAZIV("nazivArtikla"), CENA("cenaArtikla");
 
 	public final String label;
 
-	private SortBy(String label) {
+	private SortByArtikl(String label) {
 		this.label = label;
 	}
 }
