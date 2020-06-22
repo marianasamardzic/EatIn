@@ -38,7 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests()
 				.antMatchers("/lokacija").hasAuthority("Klijent")
 				// permit all
-				.antMatchers("/login", "/register").permitAll()
+				.antMatchers("/login", "/register", "/artikl", "/artikl/{id}", "/restoran", "tip-artikla",
+						"tip-restorana")
+				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();
 
