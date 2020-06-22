@@ -29,7 +29,7 @@ public class Porudzbina implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PORUDZBINA_IDPORUDZBINE_GENERATOR" )
+	@SequenceGenerator(name = "PORUDZBINA_IDPORUDZBINE_GENERATOR", sequenceName = "Porudzbina_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PORUDZBINA_IDPORUDZBINE_GENERATOR")
 	@Column(name="id_porudzbine")
 	private int idPorudzbine;

@@ -10,7 +10,6 @@ public class ArtiklDTO {
 	private int idArtikla;
 	private BigDecimal cenaArtikla;
 	private String nazivArtikla;
-	private int tipArtiklaId;
 	private String slikaArtikla;
 	private int restoranId;
 	private TipArtiklaDTO tipArtikla;

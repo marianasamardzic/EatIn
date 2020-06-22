@@ -10,10 +10,8 @@ import lombok.Data;
 @Data
 public class CreatePorudzbinaDTO {
 
-	private String statusPorudzbine;
+	// osnovne informacije
 	private BigDecimal ukupnaCena;
-	private String vremeIsporukePorudzbine;
-	private String vremePrijemaPorudzbine;
 	private LokacijaDTO lokacija;
 //	//lista stavki
 	private List<StavkaPorudzbineDTO> stavkePorudzbine;

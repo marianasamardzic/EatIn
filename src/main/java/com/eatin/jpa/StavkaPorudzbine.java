@@ -30,7 +30,7 @@ public class StavkaPorudzbine implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="SADRZI_IDSADRZI_GENERATOR" )
+	@SequenceGenerator(name = "SADRZI_IDSADRZI_GENERATOR", sequenceName = "Sadrzi_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SADRZI_IDSADRZI_GENERATOR")
 	@Column(name="id_sadrzi")
 	private int idStavkePorudzbine;

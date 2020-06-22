@@ -25,7 +25,7 @@ public class Ima_priloge implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="IMA_PRILOGE_IDIMAPRILOGE_GENERATOR" )
+	@SequenceGenerator(name = "IMA_PRILOGE_IDIMAPRILOGE_GENERATOR", sequenceName = "Ima_priloge_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IMA_PRILOGE_IDIMAPRILOGE_GENERATOR")
 	@Column(name="id_ima_priloge")
 	private int idImaPriloge;
