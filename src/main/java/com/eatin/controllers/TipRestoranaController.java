@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.TipRestoranaDTO;
+import com.eatin.dto.restoran.TipRestoranaDTO;
 import com.eatin.repository.TipRestoranaRepository;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")

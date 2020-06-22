@@ -36,7 +36,7 @@ public class Mera implements Serializable {
 
 	//bi-directional many-to-one association to Moze_biti_mere
 	@OneToMany(mappedBy="mera")
-	private List<Moze_biti_mere> mozeBitiMeres;
+	private List<Moze_biti_mere> mozeBitiMere;
 
 	//bi-directional many-to-one association to Sadrzi
 	@OneToMany(mappedBy="mera")

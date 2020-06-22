@@ -43,6 +43,6 @@ public class Dostavljac implements Serializable {
 
 	//bi-directional many-to-one association to Porudzbina
 	@OneToMany(mappedBy="dostavljac")
-	private List<Porudzbina> porudzbinas;
+	private List<Porudzbina> porudzbine;
 
 }

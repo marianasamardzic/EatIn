@@ -36,6 +36,6 @@ public class Uloga implements Serializable {
 
 	//bi-directional many-to-one association to Korisnik
 	@OneToMany(mappedBy="uloga")
-	private List<Korisnik> korisniks;
+	private List<Korisnik> korisnici;
 
 }

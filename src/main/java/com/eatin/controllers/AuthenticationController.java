@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.AuthenticationRequest;
-import com.eatin.dto.AuthenticationResponse;
-import com.eatin.dto.KorisnikDTO;
+import com.eatin.dto.auth.AuthenticationRequest;
+import com.eatin.dto.auth.AuthenticationResponse;
+import com.eatin.dto.korisnik.KorisnikDTO;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Uloga;
 import com.eatin.repository.KorisnikRepository;

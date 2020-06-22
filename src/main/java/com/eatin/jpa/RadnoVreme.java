@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import lombok.Data;
 
@@ -21,8 +22,9 @@ import lombok.Data;
  */
 @Data
 @Entity
-@NamedQuery(name="Radi.findAll", query="SELECT r FROM Radi r")
-public class Radi implements Serializable {
+@Table(name = "Radi")
+@NamedQuery(name = "Radi.findAll", query = "SELECT r FROM RadnoVreme r")
+public class RadnoVreme implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -36,7 +36,7 @@ public class Tip_artikla implements Serializable {
 
 	//bi-directional many-to-one association to Artikl
 	@OneToMany(mappedBy="tipArtikla")
-	private List<Artikl> artikls;
+	private List<Artikl> artikli;
 
 
 }

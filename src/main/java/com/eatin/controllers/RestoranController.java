@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.LokacijaDTO;
-import com.eatin.dto.RestoranDTO;
+import com.eatin.dto.restoran.RestoranDTO;
 import com.eatin.enums.SortByRestoran;
 import com.eatin.jpa.Lokacija;
 import com.eatin.jpa.Restoran;
@@ -54,7 +54,7 @@ public class RestoranController {
 		// entity iz baze
 		Page<Restoran> restorani;
 		if (tipRestorana != null) {
-			restorani = this.restoranRepository.findByjeTipas_tipRestorana_idTipaRestorana(tipRestorana, pageable);
+			restorani = this.restoranRepository.findByjeTipa_tipRestorana_idTipaRestorana(tipRestorana, pageable);
 		} else {
 			restorani = this.restoranRepository.findAll(pageable);
 		}
@@ -75,7 +75,7 @@ public class RestoranController {
 			}
 
 			List<LokacijaDTO> lokacijeDTO = ObjectMapperUtils.mapAll(lokacije, LokacijaDTO.class);
-			restoran.setRestoranSeNalazis(lokacijeDTO);
+			restoran.setRestoranSeNalazi(lokacijeDTO);
 		}
 
 		// vracanje Response Entity-ja

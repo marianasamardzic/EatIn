@@ -1,4 +1,4 @@
-package com.eatin.dto;
+package com.eatin.dto.korisnik;
 
 import lombok.Data;
 

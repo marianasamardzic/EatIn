@@ -36,11 +36,11 @@ public class Prilog implements Serializable {
 
 	//bi-directional many-to-one association to Ima_priloge
 	@OneToMany(mappedBy="prilog")
-	private List<Ima_priloge> imaPriloges;
+	private List<Ima_priloge> imaPriloge;
 
 	//bi-directional many-to-one association to Moze_sadrzati_priloge
 	@OneToMany(mappedBy="prilog")
-	private List<Moze_sadrzati_priloge> mozeSadrzatiPriloges;
+	private List<Moze_sadrzati_priloge> mozeSadrzatiPriloge;
 
 
 }

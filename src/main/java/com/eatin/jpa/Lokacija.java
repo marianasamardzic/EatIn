@@ -47,14 +47,14 @@ public class Lokacija implements Serializable {
 
 	//bi-directional many-to-one association to Klijent_se_nalazi
 	@OneToMany(mappedBy="lokacija")
-	private List<Klijent_se_nalazi> klijentSeNalazis;
+	private List<Klijent_se_nalazi> klijentSeNalazi;
 
 	//bi-directional many-to-one association to Porudzbina
 	@OneToMany(mappedBy="lokacija")
-	private List<Porudzbina> porudzbinas;
+	private List<Porudzbina> porudzbine;
 
 	//bi-directional many-to-one association to Restoran_se_nalazi
 	@OneToMany(mappedBy="lokacija")
-	private List<Restoran_se_nalazi> restoranSeNalazis;
+	private List<Restoran_se_nalazi> restoranSeNalazi;
 
 }

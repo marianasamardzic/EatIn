@@ -36,6 +36,6 @@ public class Tip_restorana implements Serializable {
 
 	//bi-directional many-to-one association to Je_tipa
 	@OneToMany(mappedBy="tipRestorana")
-	private List<Je_tipa> jeTipas;
+	private List<Je_tipa> jeTipa;
 
 }

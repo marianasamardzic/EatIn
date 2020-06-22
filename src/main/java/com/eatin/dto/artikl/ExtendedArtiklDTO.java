@@ -1,7 +1,10 @@
-package com.eatin.dto;
+package com.eatin.dto.artikl;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.eatin.dto.MeraDTO;
+import com.eatin.dto.PrilogDTO;
 
 import lombok.Data;
 

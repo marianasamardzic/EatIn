@@ -38,10 +38,10 @@ public class Klijent implements Serializable {
 
 	//bi-directional many-to-one association to Klijent_se_nalazi
 	@OneToMany(mappedBy="klijent")
-	private List<Klijent_se_nalazi> klijentSeNalazis;
+	private List<Klijent_se_nalazi> klijentSeNalazi;
 
 	//bi-directional many-to-one association to Porudzbina
 	@OneToMany(mappedBy="klijent")
-	private List<Porudzbina> porudzbinas;
+	private List<Porudzbina> porudzbine;
 
 }

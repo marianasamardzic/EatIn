@@ -37,7 +37,7 @@ public class StavkaPorudzbine implements Serializable {
 
 	//bi-directional many-to-one association to Ima_priloge
 	@OneToMany(mappedBy = "stavkaPorudzbine")
-	private List<Ima_priloge> imaPriloges;
+	private List<Ima_priloge> imaPriloge;
 
 	//bi-directional many-to-one association to Artikl
 	@ManyToOne

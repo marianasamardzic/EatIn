@@ -8,5 +8,5 @@ import com.eatin.jpa.Restoran;
 
 public interface RestoranRepository extends JpaRepository<Restoran, Integer> {
 
-	Page<Restoran> findByjeTipas_tipRestorana_idTipaRestorana(int tipRestorana, Pageable pageable);
+	Page<Restoran> findByjeTipa_tipRestorana_idTipaRestorana(int tipRestorana, Pageable pageable);
 }

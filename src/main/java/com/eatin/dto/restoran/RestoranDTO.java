@@ -1,6 +1,8 @@
-package com.eatin.dto;
+package com.eatin.dto.restoran;
 
 import java.util.List;
+
+import com.eatin.dto.LokacijaDTO;
 
 import lombok.Data;
 
@@ -13,5 +15,6 @@ public class RestoranDTO {
 	private int pibRestorana;
 	private String slikaRestorana;
 	private String telefonRestorana;
-	private List<LokacijaDTO> restoranSeNalazis;
+	private List<LokacijaDTO> restoranSeNalazi;
+	private List<RadnoVremeDTO> radnoVreme;
 }

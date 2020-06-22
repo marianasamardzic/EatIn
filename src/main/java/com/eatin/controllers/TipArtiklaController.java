@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.TipArtiklaDTO;
+import com.eatin.dto.artikl.TipArtiklaDTO;
 import com.eatin.repository.TipArtiklaRepository;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")

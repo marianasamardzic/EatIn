@@ -48,22 +48,22 @@ public class Restoran implements Serializable {
 
 	//bi-directional many-to-one association to Artikl
 	@OneToMany(mappedBy="restoran")
-	private List<Artikl> artikls;
+	private List<Artikl> artikli;
 
 	//bi-directional many-to-one association to Je_tipa
 	@OneToMany(mappedBy="restoran")
-	private List<Je_tipa> jeTipas;
+	private List<Je_tipa> jeTipa;
 
 	//bi-directional many-to-one association to Radi
 	@OneToMany(mappedBy="restoran")
-	private List<Radi> radis;
+	private List<RadnoVreme> radnoVreme;
 
 	//bi-directional many-to-one association to Restoran_se_nalazi
 	@OneToMany(mappedBy="restoran")
-	private List<Restoran_se_nalazi> restoranSeNalazis;
+	private List<Restoran_se_nalazi> restoranSeNalazi;
 
 	//bi-directional many-to-one association to Zaposleni
 	@OneToMany(mappedBy="restoran")
-	private List<Zaposleni> zaposlenis;
+	private List<Zaposleni> zaposleni;
 
 }

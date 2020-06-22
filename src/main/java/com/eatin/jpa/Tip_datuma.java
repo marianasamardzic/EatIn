@@ -36,7 +36,7 @@ public class Tip_datuma implements Serializable {
 
 	//bi-directional many-to-one association to Radi
 	@OneToMany(mappedBy="tipDatuma")
-	private List<Radi> radis;
+	private List<RadnoVreme> radnoVreme;
 
 
 }

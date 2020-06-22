@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.KorisnikDTO;
+import com.eatin.dto.korisnik.KorisnikDTO;
 import com.eatin.repository.KorisnikRepository;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")

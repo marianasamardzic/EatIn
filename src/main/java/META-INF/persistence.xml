@@ -14,7 +14,7 @@
 		<class>com.eatin.jpa.Moze_sadrzati_priloge</class>
 		<class>com.eatin.jpa.Porudzbina</class>
 		<class>com.eatin.jpa.Prilog</class>
-		<class>com.eatin.jpa.Radi</class>
+		<class>com.eatin.jpa.RadnoVreme</class>
 		<class>com.eatin.jpa.Restoran</class>
 		<class>com.eatin.jpa.Restoran_se_nalazi</class>
 		<class>com.eatin.jpa.StavkaPorudzbine</class>

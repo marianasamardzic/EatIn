@@ -16,13 +16,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.PorudzbinaDTO;
 import com.eatin.dto.PrilogDTO;
-import com.eatin.dto.StavkaPorudzbineDTO;
+import com.eatin.dto.porudzbina.CreatePorudzbinaDTO;
+import com.eatin.dto.porudzbina.PorudzbinaDTO;
+import com.eatin.dto.porudzbina.StavkaPorudzbineDTO;
 import com.eatin.enums.StatusPorudzbine;
 import com.eatin.jpa.Ima_priloge;
 import com.eatin.jpa.Porudzbina;
@@ -81,5 +84,11 @@ public class PorudzbinaController {
 			}
 		}
 		return new ResponseEntity<Page<PorudzbinaDTO>>(porudzbineDTO, HttpStatus.OK);
+	}
+
+	@PostMapping("porudzbina")
+	public void createPorudzbina(@RequestBody CreatePorudzbinaDTO createPorudzbinaDTO) {
+		Porudzbina porudzbina = ObjectMapperUtils.map(createPorudzbinaDTO, Porudzbina.class);
+		return;
 	}
 }

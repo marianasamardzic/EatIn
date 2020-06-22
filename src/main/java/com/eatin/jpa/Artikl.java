@@ -55,15 +55,15 @@ public class Artikl implements Serializable {
 
 	//bi-directional many-to-one association to Moze_biti_mere
 	@OneToMany(mappedBy="artikl")
-	private List<Moze_biti_mere> mozeBitiMeres;
+	private List<Moze_biti_mere> mozeBitiMere;
 
 	//bi-directional many-to-one association to Moze_sadrzati_priloge
 	@OneToMany(mappedBy="artikl")
-	private List<Moze_sadrzati_priloge> mozeSadrzatiPriloges;
+	private List<Moze_sadrzati_priloge> mozeSadrzatiPriloge;
 
 	//bi-directional many-to-one association to Sadrzi
 	@OneToMany(mappedBy="artikl")
-	private List<StavkaPorudzbine> sadrzis;
+	private List<StavkaPorudzbine> stavkePorudzbine;
 
 
 }

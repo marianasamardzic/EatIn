@@ -1,4 +1,4 @@
-package com.eatin.dto;
+package com.eatin.dto.auth;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
