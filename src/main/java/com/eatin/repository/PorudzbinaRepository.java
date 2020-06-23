@@ -20,4 +20,9 @@ public interface PorudzbinaRepository extends JpaRepository<Porudzbina, Integer>
 	Page<Porudzbina> findByDostavljac_idDostavljacaAndStatusPorudzbineIgnoreCase(int dostavljac,
 			String statusPorudzbine, Pageable pageable);
 
+	Page<Porudzbina> findByRestoran_idRestorana(int restoran, Pageable pageable);
+
+	Page<Porudzbina> findByRestoran_idRestoranaAndStatusPorudzbineIgnoreCase(int restoran, String statusPorudzbine,
+			Pageable pageable);
+
 }

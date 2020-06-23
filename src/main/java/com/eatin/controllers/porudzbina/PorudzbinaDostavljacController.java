@@ -1,4 +1,4 @@
-package com.eatin.controllers;
+package com.eatin.controllers.porudzbina;
 
 import javax.validation.constraints.Min;
 
@@ -30,14 +30,14 @@ import com.eatin.repository.PorudzbinaRepository;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-public class DostavljacPorudzbina {
+public class PorudzbinaDostavljacController {
 
 	@Autowired
 	private PorudzbinaRepository porudzbinaRepository;
 	@Autowired
 	private KorisnikRepository korisnikRepository;
 	@Autowired
-	private DostavljacRepository dostavljacPorudzbina;
+	private DostavljacRepository dostavljacRepository;
 
 	@ApiOperation(value = "Prikaz svih porudzbina koje pripadaju dostavljacu")
 	@GetMapping("dostavljac-porudzbina")
@@ -90,7 +90,7 @@ public class DostavljacPorudzbina {
 			// dostavljac
 			String username = ((UserDetails) principal).getUsername();
 			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
-			Dostavljac dostavljac = this.dostavljacPorudzbina.getOne(korisnik.getIdKorisnika());
+			Dostavljac dostavljac = this.dostavljacRepository.getOne(korisnik.getIdKorisnika());
 
 			// provera
 			Porudzbina porudzbina = this.porudzbinaRepository.getOne(id);
@@ -120,7 +120,7 @@ public class DostavljacPorudzbina {
 			// dobavljac
 			String username = ((UserDetails) principal).getUsername();
 			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
-			Dostavljac dostavljac = this.dostavljacPorudzbina.getOne(korisnik.getIdKorisnika());
+			Dostavljac dostavljac = this.dostavljacRepository.getOne(korisnik.getIdKorisnika());
 
 			// provera
 			Porudzbina porudzbina = this.porudzbinaRepository.getOne(id);

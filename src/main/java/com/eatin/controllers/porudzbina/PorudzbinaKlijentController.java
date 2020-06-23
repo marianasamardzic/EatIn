@@ -1,4 +1,4 @@
-package com.eatin.controllers;
+package com.eatin.controllers.porudzbina;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,15 +29,19 @@ import com.eatin.jpa.Ima_priloge;
 import com.eatin.jpa.Klijent;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Porudzbina;
+import com.eatin.jpa.Restoran;
 import com.eatin.jpa.StavkaPorudzbine;
 import com.eatin.repository.ImaPrilogeRepository;
 import com.eatin.repository.KlijentRepository;
 import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.PorudzbinaRepository;
+import com.eatin.repository.RestoranRepository;
 import com.eatin.repository.StavkaPorudzbineRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
-public class KlijentPorudzbinaController {
+public class PorudzbinaKlijentController {
 	@Autowired
 	private PorudzbinaRepository porudzbinaRepository;
 	@Autowired
@@ -48,6 +52,8 @@ public class KlijentPorudzbinaController {
 	private KlijentRepository klijentRepository;
 	@Autowired
 	private StavkaPorudzbineRepository stavkaPorudzbineRepository;
+	@Autowired
+	private RestoranRepository restoranRepository;
 
 	@PostMapping("klijent-porudzbina")
 	public ResponseEntity<PorudzbinaDTO> createPorudzbina(@RequestBody CreatePorudzbinaDTO createPorudzbinaDTO) {
@@ -56,6 +62,10 @@ public class KlijentPorudzbinaController {
 		if (principal instanceof UserDetails) {
 
 			Porudzbina porudzbina = ObjectMapperUtils.map(createPorudzbinaDTO, Porudzbina.class);
+
+			// setovanje restorana
+			Restoran restoran = this.restoranRepository.getOne(createPorudzbinaDTO.getRestoranId());
+			porudzbina.setRestoran(restoran);
 
 			// setovanje klijenta
 			String username = ((UserDetails) principal).getUsername();
@@ -109,6 +119,7 @@ public class KlijentPorudzbinaController {
 		return null;
 	}
 
+	@ApiOperation("Izlistava sve porudzbine za datog klijenta")
 	@GetMapping("klijent-porudzbina")
 	public ResponseEntity<Page<PorudzbinaDTO>> getAllPorudzbinaKlijent(
 			@RequestParam(defaultValue = "1") @Min(1) int page,

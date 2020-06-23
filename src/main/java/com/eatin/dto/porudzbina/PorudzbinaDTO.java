@@ -18,10 +18,11 @@ public class PorudzbinaDTO {
 	private BigDecimal ukupnaCena;
 	private String vremeIsporukePorudzbine;
 	private String vremePrijemaPorudzbine;
-//	//objekti
+//	//strani kljucevi
 	private DostavljacDTO dostavljac;
 	private KlijentDTO klijent;
 	private LokacijaDTO lokacija;
+	private int restoranId;
 //	//lista stavki
 	private List<StavkaPorudzbineDTO> stavkePorudzbine;
 }

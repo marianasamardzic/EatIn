@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,15 +29,19 @@ import com.eatin.jpa.Restoran_se_nalazi;
 import com.eatin.repository.RestoranRepository;
 import com.eatin.repository.RestoranSeNalaziRepository;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
-@RestController
+import io.swagger.annotations.ApiOperation;
+
+//-obezbedjuje validaciju parametara
 @Validated
+@RestController
 public class RestoranController {
+
 	@Autowired
 	private RestoranRepository restoranRepository;
 	@Autowired
 	private RestoranSeNalaziRepository restoranSeNalaziRepository;
 
+	@ApiOperation("Izlistava sve restorane")
 	@GetMapping("restoran")
 	public ResponseEntity<Page<RestoranDTO>> getAllRestoran(@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(defaultValue = "ID") SortByRestoran sortBy,
@@ -52,11 +55,12 @@ public class RestoranController {
 			pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label).descending());
 		}
 
+		// pretraga
 		if (search == null) {
 			search = "";
 		}
 
-		// entity iz baze
+		// izvlacenje iz baze
 		Page<Restoran> restorani;
 		if (tipRestorana != null) {
 			restorani = this.restoranRepository
@@ -82,7 +86,7 @@ public class RestoranController {
 			}
 
 			List<LokacijaDTO> lokacijeDTO = ObjectMapperUtils.mapAll(lokacije, LokacijaDTO.class);
-			restoran.setRestoranSeNalazi(lokacijeDTO);
+			restoran.setLokacije(lokacijeDTO);
 		}
 
 		// vracanje Response Entity-ja

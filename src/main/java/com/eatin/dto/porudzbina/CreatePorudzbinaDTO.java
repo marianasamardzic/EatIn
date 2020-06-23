@@ -13,6 +13,7 @@ public class CreatePorudzbinaDTO {
 	// osnovne informacije
 	private BigDecimal ukupnaCena;
 	private LokacijaDTO lokacija;
+	private int restoranId;
 //	//lista stavki
 	private List<StavkaPorudzbineDTO> stavkePorudzbine;
 }

@@ -46,6 +46,10 @@ public class Porudzbina implements Serializable {
 	@Column(name="vreme_prijema_porudzbine")
 	private String vremePrijemaPorudzbine;
 
+	@ManyToOne
+	@JoinColumn(name = "id_restorana")
+	private Restoran restoran;
+
 	//bi-directional many-to-one association to Dostavljac
 	@ManyToOne
 	@JoinColumn(name="id_dostavljaca")

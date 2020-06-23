@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +36,9 @@ import com.eatin.repository.ArtiklRepository;
 import com.eatin.repository.MozeBitiMereRepository;
 import com.eatin.repository.MozeSadrzatiPrilogeRepository;
 
+import io.swagger.annotations.ApiOperation;
+
 @Validated
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ArtiklController {
 
@@ -49,24 +49,26 @@ public class ArtiklController {
 	@Autowired
 	private MozeSadrzatiPrilogeRepository mozeSadrzatiPrilogeRepository;
 
+	@ApiOperation("Izlistava sve artikle")
 	@GetMapping("artikl")
 	public ResponseEntity<Page<ArtiklDTO>> getArtikl(@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(defaultValue = "false") Boolean descending,
 			@RequestParam(defaultValue = "ID") SortByArtikl sortBy, @RequestParam(required = false) String search,
-			@RequestParam(required = false) Integer tipArtikla, @RequestParam(required = false) Integer restoran)
-			throws Exception {
+			@RequestParam(required = false) Integer tipArtikla, @RequestParam(required = false) Integer restoran) {
 
+		// paginacija i sortiranje
 		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label));
 		if (descending) {
 			pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label).descending());
 		}
 
-		Page<Artikl> artikli;
-
+		// pretraga
 		if (search == null) {
 			search = "";
 		}
 
+		// izvlacenje iz baze
+		Page<Artikl> artikli;
 		if (tipArtikla != null && restoran != null) {
 			artikli = this.artiklRepository
 					.findByTipArtikla_idTipaArtiklaAndRestoran_idRestoranaAndNazivArtiklaContainingIgnoreCase(
@@ -81,18 +83,24 @@ public class ArtiklController {
 			artikli = this.artiklRepository.findBynazivArtiklaContainingIgnoreCase(search, pageable);
 		}
 
+		// mapiranje
 		Page<ArtiklDTO> responsePage = ObjectMapperUtils.mapPage(artikli, ArtiklDTO.class);
 		return new ResponseEntity<Page<ArtiklDTO>>(responsePage, HttpStatus.OK);
 	}
 
+	@ApiOperation("Izlistava artikl sa zadatim id-jem")
 	@GetMapping("artikl/{id}")
-	public ExtendedArtiklDTO getArtiklById(@PathVariable int id) {
+	public ResponseEntity<ExtendedArtiklDTO> getArtiklById(@PathVariable int id) {
 
+		// provera
 		if (!this.artiklRepository.existsById(id)) {
-			throw new EntityNotFoundException("Not found");
+			throw new EntityNotFoundException("Could not find artikl with id " + id);
 		}
 
+		// izvlacenje iz baze
 		Artikl artiklEntity = this.artiklRepository.getOne(id);
+
+		// mapiranje
 		ExtendedArtiklDTO artikl = ObjectMapperUtils.map(artiklEntity, ExtendedArtiklDTO.class);
 
 		// mere
@@ -117,7 +125,7 @@ public class ArtiklController {
 		List<PrilogDTO> priloziDTO = ObjectMapperUtils.mapAll(prilozi, PrilogDTO.class);
 		artikl.setPrilozi(priloziDTO);
 
-		return artikl;
+		return new ResponseEntity<ExtendedArtiklDTO>(artikl, HttpStatus.OK);
 
 	}
 }
