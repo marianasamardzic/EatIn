@@ -26,7 +26,7 @@ public class Klijent_se_nalazi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="KLIJENT_SE_NALAZI_IDKLIJENTSENALAZI_GENERATOR" )
+	@SequenceGenerator(name = "KLIJENT_SE_NALAZI_IDKLIJENTSENALAZI_GENERATOR", sequenceName = "Klijent_se_nalazi_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="KLIJENT_SE_NALAZI_IDKLIJENTSENALAZI_GENERATOR")
 	@Column(name="id_klijent_se_nalazi")
 	private int idKlijentSeNalazi;

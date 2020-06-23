@@ -27,7 +27,7 @@ public class Lokacija implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="LOKACIJA_IDLOKACIJE_GENERATOR" )
+	@SequenceGenerator(name = "LOKACIJA_IDLOKACIJE_GENERATOR", sequenceName = "Lokacija_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LOKACIJA_IDLOKACIJE_GENERATOR")
 	@Column(name="id_lokacije")
 	private int idLokacije;
