@@ -39,7 +39,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				// authorize requests
 				.and().authorizeRequests()
-				.antMatchers("/lokacija").hasAuthority("Klijent")
+				// klijent
+				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
+				// dostavljac
+				.antMatchers("/dostavljac-porudzbina", "dostavljac-porudzbina-isporucena/{id}}",
+						"dostavljac-porudzbina-prihvacena/{id}}", "dostavljac-porudzbina-gotova")
+				.hasAuthority("Dostavljac")
 				// permit all
 				.antMatchers("/login", "/register", "/artikl", "/artikl/{id}", "/restoran", "tip-artikla",
 						"tip-restorana")

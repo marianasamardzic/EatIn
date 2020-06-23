@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -39,6 +40,20 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<CustomErrorResponse> handleDataIntegrityViolationException(
 			DataIntegrityViolationException e) {
+		List<String> errorMessages = new ArrayList<>();
+		errorMessages.add(e.getMessage());
+		CustomErrorResponse error = new CustomErrorResponse("BAD_REQUEST", errorMessages);
+
+		error.setTimestamp(LocalDateTime.now());
+
+		error.setStatus((HttpStatus.BAD_REQUEST.value()));
+
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+
+	}
+
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<CustomErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
 		List<String> errorMessages = new ArrayList<>();
 		errorMessages.add(e.getMessage());
 		CustomErrorResponse error = new CustomErrorResponse("BAD_REQUEST", errorMessages);
