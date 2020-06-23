@@ -8,5 +8,8 @@ import com.eatin.jpa.Restoran;
 
 public interface RestoranRepository extends JpaRepository<Restoran, Integer> {
 
-	Page<Restoran> findByjeTipa_tipRestorana_idTipaRestorana(int tipRestorana, Pageable pageable);
+	Page<Restoran> findByjeTipa_tipRestorana_idTipaRestoranaAndNazivRestoranaContainingIgnoreCase(int tipRestorana,
+			String naziv, Pageable pageable);
+
+	Page<Restoran> findByNazivRestoranaContainingIgnoreCase(String naziv, Pageable pageable);
 }

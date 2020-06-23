@@ -43,6 +43,7 @@ public class RestoranController {
 	public ResponseEntity<Page<RestoranDTO>> getAllRestoran(@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(defaultValue = "ID") SortByRestoran sortBy,
 			@RequestParam(defaultValue = "false") Boolean descending,
+			@RequestParam(required = false) String search,
 			@RequestParam(required = false) Integer tipRestorana) {
 
 		// paginacija i sortiranje
@@ -51,12 +52,18 @@ public class RestoranController {
 			pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label).descending());
 		}
 
+		if (search == null) {
+			search = "";
+		}
+
 		// entity iz baze
 		Page<Restoran> restorani;
 		if (tipRestorana != null) {
-			restorani = this.restoranRepository.findByjeTipa_tipRestorana_idTipaRestorana(tipRestorana, pageable);
+			restorani = this.restoranRepository
+					.findByjeTipa_tipRestorana_idTipaRestoranaAndNazivRestoranaContainingIgnoreCase(tipRestorana,
+							search, pageable);
 		} else {
-			restorani = this.restoranRepository.findAll(pageable);
+			restorani = this.restoranRepository.findByNazivRestoranaContainingIgnoreCase(search, pageable);
 		}
 
 		// mapiranje u DTO
