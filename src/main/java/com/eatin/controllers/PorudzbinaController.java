@@ -1,5 +1,6 @@
 package com.eatin.controllers;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,11 @@ public class PorudzbinaController {
 
 
 	@GetMapping("porudzbina/{id}")
-	public ResponseEntity<PorudzbinaDTO> getOnePorudzbinaById(@PathVariable int id) {
+	public ResponseEntity<PorudzbinaDTO> getOnePorudzbinaById(@PathVariable int id) throws EntityNotFoundException {
+
+		if (!this.porudzbinaRepository.existsById(id)) {
+			throw new EntityNotFoundException("Not found");
+		}
 
 		Porudzbina porudzbina = this.porudzbinaRepository.getOne(id);
 		PorudzbinaDTO porudzbineDTO = ObjectMapperUtils.map(porudzbina, PorudzbinaDTO.class);

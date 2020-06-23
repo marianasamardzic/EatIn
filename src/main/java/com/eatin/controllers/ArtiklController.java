@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,8 @@ public class ArtiklController {
 	public ResponseEntity<Page<ArtiklDTO>> getArtikl(@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(defaultValue = "false") Boolean descending,
 			@RequestParam(defaultValue = "ID") SortByArtikl sortBy, @RequestParam(required = false) String search,
-			@RequestParam(required = false) Integer tipArtikla, @RequestParam(required = false) Integer restoran) {
+			@RequestParam(required = false) Integer tipArtikla, @RequestParam(required = false) Integer restoran)
+			throws Exception {
 
 		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label));
 		if (descending) {
@@ -85,7 +87,13 @@ public class ArtiklController {
 
 	@GetMapping("artikl/{id}")
 	public ExtendedArtiklDTO getArtiklById(@PathVariable int id) {
-		ExtendedArtiklDTO artikl = ObjectMapperUtils.map(this.artiklRepository.getOne(id), ExtendedArtiklDTO.class);
+
+		if (!this.artiklRepository.existsById(id)) {
+			throw new EntityNotFoundException("Not found");
+		}
+
+		Artikl artiklEntity = this.artiklRepository.getOne(id);
+		ExtendedArtiklDTO artikl = ObjectMapperUtils.map(artiklEntity, ExtendedArtiklDTO.class);
 
 		// mere
 		Collection<Moze_biti_mere> moze = this.mozeBitiMereRepository.findByArtikl_IdArtikla(artikl.getIdArtikla());

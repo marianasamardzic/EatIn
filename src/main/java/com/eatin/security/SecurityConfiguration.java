@@ -46,8 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"dostavljac-porudzbina-prihvacena/{id}}", "dostavljac-porudzbina-gotova")
 				.hasAuthority("Dostavljac")
 				// permit all
-				.antMatchers("/login", "/register", "/artikl", "/artikl/{id}", "/restoran", "tip-artikla",
-						"tip-restorana")
+				.antMatchers("/login", "/register", "/artikl", "/artikl/{id}", "/restoran", "/tip-artikla",
+						"/tip-restorana")
 				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();
