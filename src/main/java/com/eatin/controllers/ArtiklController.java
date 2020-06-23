@@ -50,27 +50,33 @@ public class ArtiklController {
 
 	@GetMapping("artikl")
 	public ResponseEntity<Page<ArtiklDTO>> getArtikl(@RequestParam(defaultValue = "1") @Min(1) int page,
-			@RequestParam(defaultValue = "false") Boolean descending, @RequestParam(defaultValue = "ID") SortByArtikl sortBy,
-			@RequestParam(required = false) String search, @RequestParam(required = false) Integer tipArtikla,
-			@RequestParam(required = false) Integer restoran) {
+			@RequestParam(defaultValue = "false") Boolean descending,
+			@RequestParam(defaultValue = "ID") SortByArtikl sortBy, @RequestParam(required = false) String search,
+			@RequestParam(required = false) Integer tipArtikla, @RequestParam(required = false) Integer restoran) {
 
 		Pageable pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label));
 		if (descending) {
-			pageable = PageRequest.of(page - 1, 5, Sort.by("idArtikla").descending());
+			pageable = PageRequest.of(page - 1, 5, Sort.by(sortBy.label).descending());
 		}
 
 		Page<Artikl> artikli;
+
+		if (search == null) {
+			search = "";
+		}
+
 		if (tipArtikla != null && restoran != null) {
-			artikli = this.artiklRepository.findByTipArtikla_idTipaArtiklaAndRestoran_idRestorana(tipArtikla, restoran,
-					pageable);
+			artikli = this.artiklRepository
+					.findByTipArtikla_idTipaArtiklaAndRestoran_idRestoranaAndNazivArtiklaContainingIgnoreCase(
+							tipArtikla, restoran, "", pageable);
 		} else if (tipArtikla != null) {
-			artikli = this.artiklRepository.findByTipArtikla_idTipaArtikla(tipArtikla, pageable);
+			artikli = this.artiklRepository
+					.findByTipArtikla_idTipaArtiklaAndNazivArtiklaContainingIgnoreCase(tipArtikla, search, pageable);
 		} else if (restoran != null) {
-			artikli = this.artiklRepository.findByRestoran_idRestorana(restoran, pageable);
-		} else if (search != null) {
-			artikli = this.artiklRepository.findBynazivArtiklaContainingIgnoreCase(search, pageable);
+			artikli = this.artiklRepository.findByRestoran_idRestoranaAndNazivArtiklaContainingIgnoreCase(restoran,
+					search, pageable);
 		} else {
-			artikli = this.artiklRepository.findAll(pageable);
+			artikli = this.artiklRepository.findBynazivArtiklaContainingIgnoreCase(search, pageable);
 		}
 
 		Page<ArtiklDTO> responsePage = ObjectMapperUtils.mapPage(artikli, ArtiklDTO.class);
