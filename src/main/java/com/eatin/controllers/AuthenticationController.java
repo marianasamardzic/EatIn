@@ -4,10 +4,12 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,7 @@ import com.eatin.dto.auth.AuthenticationResponse;
 import com.eatin.dto.korisnik.KorisnikDTO;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Uloga;
+import com.eatin.mail.NotificationService;
 import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.UlogaRepository;
 import com.eatin.security.JwtUtil;
@@ -43,6 +46,10 @@ public class AuthenticationController {
 	private UlogaRepository ulogaRepository;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private NotificationService notificationService;
+
+	private org.slf4j.Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(
@@ -68,7 +75,13 @@ public class AuthenticationController {
 		jdbcTemplate
 				.execute("insert into Dostava.Klijent(id_klijenta) values(" + sacuvaniKorisnik.getIdKorisnika() + ");");
 
-		return new ResponseEntity<String>("Successfully added", HttpStatus.OK);
+		try {
+			this.notificationService.sendNotification(korisnik.getEmailKorisnika());
+		} catch (MailException e) {
+			logger.info("Error sending email: " + e.getMessage());
+		}
+
+		return new ResponseEntity<String>("Verification email is send to user", HttpStatus.OK);
 
 	}
 
