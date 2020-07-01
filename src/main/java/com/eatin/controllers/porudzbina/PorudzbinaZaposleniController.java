@@ -24,9 +24,9 @@ import com.eatin.enums.StatusPorudzbine;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Porudzbina;
 import com.eatin.jpa.Zaposleni;
-import com.eatin.jpa.ZaposleniRepository;
 import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.PorudzbinaRepository;
+import com.eatin.repository.ZaposleniRepository;
 
 import io.swagger.annotations.ApiOperation;
 
