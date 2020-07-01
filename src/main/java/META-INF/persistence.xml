@@ -23,5 +23,6 @@
 		<class>com.eatin.jpa.Tip_restorana</class>
 		<class>com.eatin.jpa.Uloga</class>
 		<class>com.eatin.jpa.Zaposleni</class>
+		<class>com.eatin.jpa.Token</class>
 	</persistence-unit>
 </persistence>

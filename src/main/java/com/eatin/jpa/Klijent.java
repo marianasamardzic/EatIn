@@ -3,7 +3,6 @@ package com.eatin.jpa;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,7 +31,7 @@ public class Klijent implements Serializable {
 	private int idKlijenta;
 
 	//bi-directional one-to-one association to Korisnik
-	@OneToOne(cascade = { CascadeType.ALL })
+	@OneToOne()
 	@JoinColumn(name="id_klijenta")
 	private Korisnik korisnik;
 

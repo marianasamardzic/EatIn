@@ -25,9 +25,7 @@ import lombok.Data;
 @NamedQuery(name="Korisnik.findAll", query="SELECT k FROM Korisnik k")
 public class Korisnik implements Serializable {
 	private static final long serialVersionUID = 1L;
-//	@Id
-//	@SequenceGenerator(name = "ARTIKL_ID_GENERATOR", sequenceName = "ARTIKL_SEQ", allocationSize = 1)
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ARTIKL_ID_GENERATOR")
+
 	@Id
 	@SequenceGenerator(name = "KORISNIK_IDKORISNIKA_GENERATOR", sequenceName = "Korisnik_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="KORISNIK_IDKORISNIKA_GENERATOR")
@@ -48,6 +46,8 @@ public class Korisnik implements Serializable {
 
 	@Column(name="telefon_korisnika")
 	private String telefonKorisnika;
+
+	private Boolean aktivan;
 
 	//bi-directional one-to-one association to Dostavljac
 	@OneToOne(mappedBy="korisnik")

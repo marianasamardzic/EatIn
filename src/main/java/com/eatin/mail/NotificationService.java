@@ -12,12 +12,14 @@ public class NotificationService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 
-	public void sendNotification(String email) throws MailException {
+	public void sendNotification(String email, String token) throws MailException {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(email);
 		mail.setFrom("eatinco@gmail.com");
 		mail.setSubject("Uspesno ste se registrovali");
-		mail.setText("Molimo Vas potvrdite registraciju klikom na link");
+		mail.setText("Molimo Vas potvrdite registraciju klikom na link : "
+				+ "http://localhost:8080/confirm-account?token="
+				+ token);
 
 		this.javaMailSender.send(mail);
 	}
