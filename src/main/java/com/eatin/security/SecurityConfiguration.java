@@ -42,11 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// klijent
 				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
 				// dostavljac
-				.antMatchers("/dostavljac-porudzbina", "dostavljac-porudzbina-isporucena/{id}}",
-						"dostavljac-porudzbina-prihvacena/{id}}", "dostavljac-porudzbina-gotova")
+				.antMatchers("/dostavljac-porudzbina", "/dostavljac-porudzbina-isporucena/{id}}",
+						"/dostavljac-porudzbina-prihvacena/{id}}", "/dostavljac-porudzbina-gotova")
 				.hasAuthority("Dostavljac")
 				// zaposleni
-				.antMatchers("/zaposleni-porudzbina", "zaposleni-porudzbina-gotova/{id}").hasAuthority("Zaposleni")
+				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}").hasAuthority("Zaposleni")
 				// permit all
 				.antMatchers("/login", "/register", "/artikl", "/artikl/{id}", "/restoran", "/tip-artikla",
 						"/tip-restorana", "/email", "/confirm-account")
