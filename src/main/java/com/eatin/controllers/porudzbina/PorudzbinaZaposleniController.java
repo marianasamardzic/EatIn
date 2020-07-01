@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -70,6 +71,7 @@ public class PorudzbinaZaposleniController {
 
 	@ApiOperation(value = "Izmena statusa porudzbine iz primljena u gotova")
 	@PutMapping("zaposleni-porudzbina-gotova/{id}")
+	@CrossOrigin
 	public ResponseEntity<PorudzbinaDTO> setPorudzbinaGotova(@PathVariable int id) throws Exception {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
