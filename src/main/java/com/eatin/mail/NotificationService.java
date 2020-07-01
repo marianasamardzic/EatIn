@@ -18,7 +18,7 @@ public class NotificationService {
 		mail.setFrom("eatinco@gmail.com");
 		mail.setSubject("Uspesno ste se registrovali");
 		mail.setText("Molimo Vas potvrdite registraciju klikom na link : "
-				+ "http://localhost:8080/confirm-account?token="
+				+ "https://eatin-backend.herokuapp.com/confirm-account?token="
 				+ token);
 
 		this.javaMailSender.send(mail);
