@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.Min;
 
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,7 @@ import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.LokacijaDTO;
 import com.eatin.dto.restoran.RestoranDTO;
 import com.eatin.enums.SortByRestoran;
+import com.eatin.error.CustomException;
 import com.eatin.jpa.Lokacija;
 import com.eatin.jpa.Restoran;
 import com.eatin.jpa.Restoran_se_nalazi;
@@ -91,6 +94,37 @@ public class RestoranController {
 
 		// vracanje Response Entity-ja
 		return new ResponseEntity<Page<RestoranDTO>>(responsePage, HttpStatus.OK);
+	}
+
+	@ApiOperation("Izlistava restoran sa zadatim id-jem")
+	@GetMapping("restoran/{id}")
+	public ResponseEntity<RestoranDTO> getRestoranById(@PathVariable int id) throws Exception {
+
+		// izvlacenje iz baze
+		Optional<Restoran> restoran = this.restoranRepository.findById(id);
+
+		// provera da li postoji
+		if (restoran.isEmpty()) {
+			throw new CustomException("Ne postoji restoran sa datim id-jem");
+		}
+
+		// mapiranje
+		RestoranDTO restoranDTO = ObjectMapperUtils.map(restoran.get(), RestoranDTO.class);
+
+		// lokacije
+		Collection<Restoran_se_nalazi> nalazi = this.restoranSeNalaziRepository
+				.findByRestoran_idRestorana(restoran.get().getIdRestorana());
+		List<Lokacija> lokacije = new ArrayList<>();
+		Iterator<Restoran_se_nalazi> nalaziIterator = nalazi.iterator();
+		while (nalaziIterator.hasNext()) {
+			lokacije.add(nalaziIterator.next().getLokacija());
+		}
+
+		List<LokacijaDTO> lokacijeDTO = ObjectMapperUtils.mapAll(lokacije, LokacijaDTO.class);
+		restoranDTO.setLokacije(lokacijeDTO);
+
+		return new ResponseEntity<RestoranDTO>(restoranDTO, HttpStatus.OK);
+
 	}
 
 }
