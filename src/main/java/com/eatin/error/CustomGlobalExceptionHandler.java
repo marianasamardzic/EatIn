@@ -52,8 +52,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
 	}
 
-	@ExceptionHandler(NotActivatedException.class)
-	public ResponseEntity<CustomErrorResponse> handleNotActivatedException(NotActivatedException e) {
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<CustomErrorResponse> handleNotActivatedException(CustomException e) {
 		List<String> errorMessages = new ArrayList<>();
 		errorMessages.add(e.getMessage());
 		CustomErrorResponse error = new CustomErrorResponse("BAD_REQUEST", errorMessages);

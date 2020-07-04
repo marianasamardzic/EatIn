@@ -1,7 +1,7 @@
 package com.eatin.enums;
 
 public enum StatusPorudzbine {
-	PRIMLJENA("primljena"), GOTOVA("gotova"), PRIHVACENA("preuzeta"), ISPORUCENA("dostavljena");
+	PRIMLJENA("Primljena"), GOTOVA("Gotova"), PRIHVACENA("Preuzeta"), ISPORUCENA("Dostavljena");
 
 	public final String label;
 

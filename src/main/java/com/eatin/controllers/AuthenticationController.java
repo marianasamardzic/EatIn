@@ -27,7 +27,7 @@ import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.auth.AuthenticationRequest;
 import com.eatin.dto.auth.AuthenticationResponse;
 import com.eatin.dto.korisnik.KorisnikDTO;
-import com.eatin.error.NotActivatedException;
+import com.eatin.error.CustomException;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Token;
 import com.eatin.jpa.Uloga;
@@ -70,7 +70,7 @@ public class AuthenticationController {
 		// provera da li je aktivan
 		Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(userDetails.getUsername());
 		if (korisnik.getAktivan() == false) {
-			throw new NotActivatedException("Korisnik nije aktivirao ovaj nalog");
+			throw new CustomException("Korisnik nije aktivirao ovaj nalog");
 		}
 		final String jwt = jwtUtil.generateToken(userDetails);
 		return ResponseEntity.ok(new AuthenticationResponse(jwt));

@@ -1,6 +1,7 @@
 package com.eatin.controllers.porudzbina;
 
-import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
+
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.porudzbina.PorudzbinaDTO;
 import com.eatin.enums.StatusPorudzbine;
+import com.eatin.error.CustomException;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Porudzbina;
 import com.eatin.jpa.Zaposleni;
@@ -71,7 +71,6 @@ public class PorudzbinaZaposleniController {
 
 	@ApiOperation(value = "Izmena statusa porudzbine iz primljena u gotova")
 	@PutMapping("zaposleni-porudzbina-gotova/{id}")
-	@CrossOrigin
 	public ResponseEntity<PorudzbinaDTO> setPorudzbinaGotova(@PathVariable int id) throws Exception {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -81,26 +80,27 @@ public class PorudzbinaZaposleniController {
 			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
 			Zaposleni zaposleni = this.zaposleniRepository.getOne(korisnik.getIdKorisnika());
 
-			// provera da li porudzbina postoji
-			if (!this.porudzbinaRepository.existsById(id)) {
-				throw new EntityNotFoundException("Could not find porudzbina with id " + id);
-			}
-			Porudzbina porudzbina = this.porudzbinaRepository.getOne(id);
+			Optional<Porudzbina> porudzbina = this.porudzbinaRepository.findById(id);
 
-			// provera da li je porudzbina primljena
-			if (porudzbina.getStatusPorudzbine() != StatusPorudzbine.PRIMLJENA.label) {
-				throw new BadCredentialsException("Porudzbina nije primljena");
+			// provera da li postoji data porudzbina
+			if (porudzbina.isEmpty()) {
+				throw new CustomException("Ne postoji porudzbina sa datim id-jem");
 			}
 
 			// provera da li porudzbina pripada tom restoranu
-			if (porudzbina.getRestoran().getIdRestorana() != zaposleni.getRestoran().getIdRestorana()) {
-				throw new BadCredentialsException("Porudzbina ne pripada restoranu u kom radi zaposleni");
+			if (porudzbina.get().getRestoran().getIdRestorana() != zaposleni.getRestoran().getIdRestorana()) {
+				throw new CustomException("Porudzbina ne pripada restoranu");
+			}
+
+			// provera da li je porudzbina primljena
+			if (!porudzbina.get().getStatusPorudzbine().equals(StatusPorudzbine.PRIMLJENA.label)) {
+				throw new CustomException("Porudzbina nije primljena");
 			}
 
 			// izmena
-			porudzbina.setStatusPorudzbine(StatusPorudzbine.GOTOVA.label);
-			this.porudzbinaRepository.save(porudzbina);
-			PorudzbinaDTO porudzbinaDTO = ObjectMapperUtils.map(porudzbina, PorudzbinaDTO.class);
+			porudzbina.get().setStatusPorudzbine(StatusPorudzbine.GOTOVA.label);
+			this.porudzbinaRepository.save(porudzbina.get());
+			PorudzbinaDTO porudzbinaDTO = ObjectMapperUtils.map(porudzbina.get(), PorudzbinaDTO.class);
 			return new ResponseEntity<PorudzbinaDTO>(porudzbinaDTO, HttpStatus.OK);
 
 		}
