@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Validated
-public class PorudzbinaController {
+public class PorudzbinaAdminController {
 
 	@Autowired
 	private PorudzbinaRepository porudzbinaRepository;

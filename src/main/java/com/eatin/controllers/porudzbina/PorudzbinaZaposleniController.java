@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.porudzbina.PorudzbinaDTO;
+import com.eatin.dto.porudzbina.SimplePorudzbinaDTO;
 import com.eatin.enums.StatusPorudzbine;
 import com.eatin.error.CustomException;
 import com.eatin.jpa.Korisnik;
@@ -43,7 +43,7 @@ public class PorudzbinaZaposleniController {
 
 	@ApiOperation("Izlistava sve primljene porudzbine za restoran u kom zaposleni radi")
 	@GetMapping("zaposleni-porudzbina")
-	public ResponseEntity<Page<PorudzbinaDTO>> getAllPorudzbinaZaposleni(
+	public ResponseEntity<Page<SimplePorudzbinaDTO>> getAllPorudzbinaZaposleni(
 			@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(required = false) StatusPorudzbine statusPorudzbine) {
 
@@ -62,16 +62,16 @@ public class PorudzbinaZaposleniController {
 				entiteti = this.porudzbinaRepository
 						.findByRestoran_idRestorana(zaposleni.getRestoran().getIdRestorana(), pageable);
 			}
-			Page<PorudzbinaDTO> porudzbineDTO = ObjectMapperUtils.mapPage(entiteti, PorudzbinaDTO.class);
+			Page<SimplePorudzbinaDTO> porudzbineDTO = ObjectMapperUtils.mapPage(entiteti, SimplePorudzbinaDTO.class);
 
-			return new ResponseEntity<Page<PorudzbinaDTO>>(porudzbineDTO, HttpStatus.OK);
+			return new ResponseEntity<Page<SimplePorudzbinaDTO>>(porudzbineDTO, HttpStatus.OK);
 		}
 		return null;
 	}
 
 	@ApiOperation(value = "Izmena statusa porudzbine iz primljena u gotova")
 	@PutMapping("zaposleni-porudzbina-gotova/{id}")
-	public ResponseEntity<PorudzbinaDTO> setPorudzbinaGotova(@PathVariable int id) throws Exception {
+	public ResponseEntity<SimplePorudzbinaDTO> setPorudzbinaGotova(@PathVariable int id) throws Exception {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
@@ -100,8 +100,8 @@ public class PorudzbinaZaposleniController {
 			// izmena
 			porudzbina.get().setStatusPorudzbine(StatusPorudzbine.GOTOVA.label);
 			this.porudzbinaRepository.save(porudzbina.get());
-			PorudzbinaDTO porudzbinaDTO = ObjectMapperUtils.map(porudzbina.get(), PorudzbinaDTO.class);
-			return new ResponseEntity<PorudzbinaDTO>(porudzbinaDTO, HttpStatus.OK);
+			SimplePorudzbinaDTO porudzbinaDTO = ObjectMapperUtils.map(porudzbina.get(), SimplePorudzbinaDTO.class);
+			return new ResponseEntity<SimplePorudzbinaDTO>(porudzbinaDTO, HttpStatus.OK);
 
 		}
 		return null;

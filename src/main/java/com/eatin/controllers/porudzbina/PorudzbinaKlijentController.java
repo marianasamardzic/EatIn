@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.porudzbina.CreatePorudzbinaDTO;
-import com.eatin.dto.porudzbina.PorudzbinaDTO;
+import com.eatin.dto.porudzbina.SimplePorudzbinaDTO;
 import com.eatin.enums.StatusPorudzbine;
 import com.eatin.jpa.Ima_priloge;
 import com.eatin.jpa.Klijent;
@@ -56,7 +56,7 @@ public class PorudzbinaKlijentController {
 	private RestoranRepository restoranRepository;
 
 	@PostMapping("klijent-porudzbina")
-	public ResponseEntity<PorudzbinaDTO> createPorudzbina(@RequestBody CreatePorudzbinaDTO createPorudzbinaDTO) {
+	public ResponseEntity<SimplePorudzbinaDTO> createPorudzbina(@RequestBody CreatePorudzbinaDTO createPorudzbinaDTO) {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
@@ -78,12 +78,10 @@ public class PorudzbinaKlijentController {
 
 			// setovanje datuma
 			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(new Date());
-			System.out.println(date);
 			porudzbina.setVremePrijemaPorudzbine(date);
 			porudzbina.setVremeIsporukePorudzbine(null);
 
 			// cuvanje porudzbine
-			System.out.println("Cuvanje porudzbine");
 			Porudzbina savedPorudzbina = this.porudzbinaRepository.save(porudzbina);
 			int id = savedPorudzbina.getIdPorudzbine();
 
@@ -96,7 +94,6 @@ public class PorudzbinaKlijentController {
 				Porudzbina p = new Porudzbina();
 				p.setIdPorudzbine(id);
 				sp.setPorudzbina(p);
-				System.out.println("Cuvanje stavki porudzbine");
 				StavkaPorudzbine savedStavkaPorudzbine = this.stavkaPorudzbineRepository.save(sp);
 
 				// cuavnje ima priloga
@@ -104,24 +101,21 @@ public class PorudzbinaKlijentController {
 				while (iteratorImaPriloge.hasNext()) {
 					Ima_priloge im = iteratorImaPriloge.next();
 					im.setStavkaPorudzbine(savedStavkaPorudzbine);
-					System.out.println("Cuvanje ima priloge");
 					this.imaPrilogeRepository.save(im);
 				}
-
 			}
 
-			System.out.println("Izvlacenje iz baze");
-			PorudzbinaDTO responsePorudzbinaDTO = ObjectMapperUtils.map(this.porudzbinaRepository.getOne(id),
-					PorudzbinaDTO.class);
+			SimplePorudzbinaDTO responsePorudzbinaDTO = ObjectMapperUtils.map(this.porudzbinaRepository.getOne(id),
+					SimplePorudzbinaDTO.class);
 
-			return new ResponseEntity<PorudzbinaDTO>(responsePorudzbinaDTO, HttpStatus.OK);
+			return new ResponseEntity<SimplePorudzbinaDTO>(responsePorudzbinaDTO, HttpStatus.OK);
 		}
 		return null;
 	}
 
 	@ApiOperation("Izlistava sve porudzbine za datog klijenta")
 	@GetMapping("klijent-porudzbina")
-	public ResponseEntity<Page<PorudzbinaDTO>> getAllPorudzbinaKlijent(
+	public ResponseEntity<Page<SimplePorudzbinaDTO>> getAllPorudzbinaKlijent(
 			@RequestParam(defaultValue = "1") @Min(1) int page,
 			@RequestParam(required = false) StatusPorudzbine statusPorudzbine) {
 
@@ -131,7 +125,7 @@ public class PorudzbinaKlijentController {
 			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
 
 			Pageable pageable = PageRequest.of(page - 1, 5);
-			Page<PorudzbinaDTO> porudzbineDTO;
+			Page<SimplePorudzbinaDTO> porudzbineDTO;
 			Page<Porudzbina> entiteti;
 			if (statusPorudzbine != null) {
 				entiteti = this.porudzbinaRepository.findByKlijent_idKlijentaAndStatusPorudzbineIgnoreCase(
@@ -139,9 +133,9 @@ public class PorudzbinaKlijentController {
 			} else {
 				entiteti = this.porudzbinaRepository.findByKlijent_idKlijenta(korisnik.getIdKorisnika(), pageable);
 			}
-			porudzbineDTO = ObjectMapperUtils.mapPage(entiteti, PorudzbinaDTO.class);
+			porudzbineDTO = ObjectMapperUtils.mapPage(entiteti, SimplePorudzbinaDTO.class);
 
-			return new ResponseEntity<Page<PorudzbinaDTO>>(porudzbineDTO, HttpStatus.OK);
+			return new ResponseEntity<Page<SimplePorudzbinaDTO>>(porudzbineDTO, HttpStatus.OK);
 		}
 		return null;
 	}
