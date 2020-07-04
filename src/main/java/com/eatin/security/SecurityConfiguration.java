@@ -29,11 +29,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 
+	// autentifikacija
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
 
+	// autorizacija
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and()
@@ -42,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// authorize requests
 				.and().authorizeRequests()
 				// klijent
-				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
+				.antMatchers("/lokacija", "/klijent-porudzbina", "/profil").hasAuthority("Klijent")
 				// dostavljac
 				.antMatchers("/dostavljac-porudzbina", "/dostavljac-porudzbina-isporucena/{id}}",
 						"/dostavljac-porudzbina-prihvacena/{id}}", "/dostavljac-porudzbina-gotova")
