@@ -68,7 +68,7 @@ public class PorudzbinaDostavljacController {
 			Optional<Porudzbina> porudzbina = this.porudzbinaRepository.findById(id);
 
 			// provera da li postoji data porudzbina
-			if (porudzbina.isEmpty()) {
+			if (!porudzbina.isPresent()) {
 				throw new CustomException("Ne postoji porudzbina sa datim id-jem");
 			}
 
@@ -132,7 +132,7 @@ public class PorudzbinaDostavljacController {
 			Optional<Porudzbina> porudzbina = this.porudzbinaRepository.findById(id);
 
 			// provera da li postoji data porudzbina
-			if (porudzbina.isEmpty()) {
+			if (!porudzbina.isPresent()) {
 				throw new CustomException("Ne postoji porudzbina sa datim id-jem");
 			}
 

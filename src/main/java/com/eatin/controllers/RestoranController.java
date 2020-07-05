@@ -104,7 +104,7 @@ public class RestoranController {
 		Optional<Restoran> restoran = this.restoranRepository.findById(id);
 
 		// provera da li postoji
-		if (restoran.isEmpty()) {
+		if (!restoran.isPresent()) {
 			throw new CustomException("Ne postoji restoran sa datim id-jem");
 		}
 
