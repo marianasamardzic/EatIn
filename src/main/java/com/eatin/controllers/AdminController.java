@@ -24,6 +24,7 @@ import com.eatin.dto.auth.AuthenticationResponse;
 import com.eatin.dto.korisnik.DostavljacDTO;
 import com.eatin.dto.korisnik.DostavljacNoIdDTO;
 import com.eatin.dto.korisnik.KorisnikDTO;
+import com.eatin.dto.korisnik.ZaposleniDTO;
 import com.eatin.dto.korisnik.ZaposleniNoIdDTO;
 import com.eatin.jpa.Dostavljac;
 import com.eatin.jpa.Korisnik;
@@ -32,6 +33,7 @@ import com.eatin.repository.DostavljacRepository;
 import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.RestoranRepository;
 import com.eatin.repository.UlogaRepository;
+import com.eatin.repository.ZaposleniRepository;
 import com.eatin.security.JwtUtil;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -48,6 +50,8 @@ public class AdminController {
 	private KorisnikRepository korisnikRepository;
 	@Autowired
 	private DostavljacRepository dostavljacRepository;
+	@Autowired
+	private ZaposleniRepository zaposleniRepository;
 	@Autowired
 	private UlogaRepository ulogaRepository;
 	@Autowired
@@ -118,7 +122,19 @@ public class AdminController {
 
 			return new ResponseEntity<String>("Successfully added", HttpStatus.OK);
 		}
-
 	}
 	
+	//get svih dostavljaca
+	@GetMapping("admin/dostavljac")
+	public Collection<DostavljacDTO> getAllDostavljac() {
+
+		return ObjectMapperUtils.mapAll(dostavljacRepository.findAll(), DostavljacDTO.class);
+	}
+	
+	//get svih zaposlenih
+	@GetMapping("admin/zaposleni")
+	public Collection<ZaposleniDTO> getAllZaposleni() {
+
+		return ObjectMapperUtils.mapAll(zaposleniRepository.findAll(), ZaposleniDTO.class);
+	}
 }

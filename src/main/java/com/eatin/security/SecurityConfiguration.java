@@ -53,7 +53,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}").hasAuthority("Zaposleni")
 				// admin
 				.antMatchers("/admin/register/dostavljac", "/admin/register/admin", "/admin/register/zaposleni",
-						"/porudzbina", "/porudzbina/{id}")
+						"/porudzbina", "/porudzbina/{id}",
+						"/admin/dostavljac",
+						"/admin/zaposleni")
 				.hasAuthority("Admin")
 				// permit all
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
