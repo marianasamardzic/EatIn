@@ -10,10 +10,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,10 +30,15 @@ import com.eatin.dto.auth.AuthenticationResponse;
 import com.eatin.dto.korisnik.DostavljacDTO;
 import com.eatin.dto.korisnik.DostavljacNoIdDTO;
 import com.eatin.dto.korisnik.KorisnikDTO;
+import com.eatin.dto.korisnik.KorisnikNoEmailDTO;
 import com.eatin.dto.korisnik.ZaposleniDTO;
 import com.eatin.dto.korisnik.ZaposleniNoIdDTO;
+import com.eatin.dto.porudzbina.SimplePorudzbinaDTO;
+import com.eatin.enums.StatusPorudzbine;
+import com.eatin.error.CustomException;
 import com.eatin.jpa.Dostavljac;
 import com.eatin.jpa.Korisnik;
+import com.eatin.jpa.Porudzbina;
 import com.eatin.jpa.Uloga;
 import com.eatin.repository.DostavljacRepository;
 import com.eatin.repository.KorisnikRepository;
@@ -35,6 +46,8 @@ import com.eatin.repository.RestoranRepository;
 import com.eatin.repository.UlogaRepository;
 import com.eatin.repository.ZaposleniRepository;
 import com.eatin.security.JwtUtil;
+
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -59,7 +72,7 @@ public class AdminController {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	//registracija novog admina
+	@ApiOperation(value = "Registracija novog admina")
 	@PostMapping("admin/register/admin")
 	public ResponseEntity<String> registerUser(@Valid @RequestBody KorisnikDTO korisnikDTO) throws Exception {
 
@@ -76,7 +89,7 @@ public class AdminController {
 
 	}
 	
-	//registracija novog dostavljaca
+	@ApiOperation(value = "Registracija novog dostavljaca")
 	@PostMapping("admin/register/dostavljac")
 	public ResponseEntity<String> registerUser(@Valid @RequestBody DostavljacNoIdDTO dostavljacNoIdDTO) throws Exception {
 
@@ -89,7 +102,6 @@ public class AdminController {
 		
 		Korisnik sacuvaniKorisnik = korisnikRepository.save(korisnik);
 		
-		//System.out.println(dostavljacNoIdDTO.getPrevoznoSredstvo());
 		jdbcTemplate
 				.execute("insert into Dostava.Dostavljac(id_dostavljaca, prevozno_sredstvo)"
 						+ " values(" + sacuvaniKorisnik.getIdKorisnika() + ", '" + dostavljacNoIdDTO.getPrevoznoSredstvo() + "');");
@@ -98,7 +110,7 @@ public class AdminController {
 
 	}
 	
-	//registracija novog zaposlenog
+	@ApiOperation(value = "Registracija novog zaposlenog")
 	@PostMapping("admin/register/zaposleni")
 	public ResponseEntity<String> registerUser(@Valid @RequestBody ZaposleniNoIdDTO zaposleniNoIdDTO) throws Exception {
 		
@@ -124,17 +136,67 @@ public class AdminController {
 		}
 	}
 	
-	//get svih dostavljaca
+	@ApiOperation(value = "Izlistavanje svih dostavljaca")
 	@GetMapping("admin/dostavljac")
 	public Collection<DostavljacDTO> getAllDostavljac() {
 
 		return ObjectMapperUtils.mapAll(dostavljacRepository.findAll(), DostavljacDTO.class);
 	}
 	
-	//get svih zaposlenih
+	@ApiOperation(value = "Izlistavanje svih zaposlenih")
 	@GetMapping("admin/zaposleni")
 	public Collection<ZaposleniDTO> getAllZaposleni() {
 
 		return ObjectMapperUtils.mapAll(zaposleniRepository.findAll(), ZaposleniDTO.class);
+	}
+	
+	@ApiOperation(value = "Azuriranje admina")
+	@PutMapping("admin/update/admin/{id}")
+	public ResponseEntity<String> updateAdmin(@Validated @RequestBody KorisnikDTO korisnikDTO, @PathVariable int id) {
+
+		Korisnik korisnik = this.korisnikRepository.getOne(id);
+
+		if(korisnik.getUloga().getIdUloge() != 4)
+		{
+			return new ResponseEntity<String>("Korisnik doesn't have admin role", HttpStatus.NOT_FOUND);
+		}
+	
+		else
+		{
+			korisnik.setEmailKorisnika(korisnikDTO.getEmailKorisnika());
+			korisnik.setLozinkaKorisnika(korisnikDTO.getLozinkaKorisnika());
+			korisnik.setImeKorisnika(korisnikDTO.getImeKorisnika());
+			korisnik.setPrezimeKorisnika(korisnikDTO.getPrezimeKorisnika());
+			korisnik.setTelefonKorisnika(korisnikDTO.getTelefonKorisnika());
+	
+			this.korisnikRepository.save(korisnik);
+			KorisnikDTO dto = ObjectMapperUtils.map(korisnik, KorisnikDTO.class);
+			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "Azuriranje klijenta")
+	@PutMapping("admin/update/klijent/{id}")
+	public ResponseEntity<String> updateKlijent(@Validated @RequestBody KorisnikDTO korisnikDTO, @PathVariable int id) {
+
+		Korisnik korisnik = this.korisnikRepository.getOne(id);
+
+		if(korisnik.getUloga().getIdUloge() != 1)
+		{
+			return new ResponseEntity<String>("Korisnik doesn't have klijent role", HttpStatus.NOT_FOUND);
+		}
+	
+		else
+		{
+			korisnik.setEmailKorisnika(korisnikDTO.getEmailKorisnika());
+			korisnik.setLozinkaKorisnika(korisnikDTO.getLozinkaKorisnika());
+			korisnik.setImeKorisnika(korisnikDTO.getImeKorisnika());
+			korisnik.setPrezimeKorisnika(korisnikDTO.getPrezimeKorisnika());
+			korisnik.setTelefonKorisnika(korisnikDTO.getTelefonKorisnika());
+	
+			this.korisnikRepository.save(korisnik);
+			KorisnikDTO dto = ObjectMapperUtils.map(korisnik, KorisnikDTO.class);
+			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
+		}
 	}
 }
