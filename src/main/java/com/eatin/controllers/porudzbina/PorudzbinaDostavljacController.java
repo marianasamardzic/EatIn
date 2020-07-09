@@ -1,5 +1,7 @@
 package com.eatin.controllers.porudzbina;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.validation.constraints.Min;
@@ -148,6 +150,8 @@ public class PorudzbinaDostavljacController {
 
 			// izmena
 			porudzbina.get().setStatusPorudzbine(StatusPorudzbine.ISPORUCENA.label);
+			String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").format(new Date());
+			porudzbina.get().setVremeIsporukePorudzbine(date);
 			this.porudzbinaRepository.save(porudzbina.get());
 			SimplePorudzbinaDTO porudzbinaDTO = ObjectMapperUtils.map(porudzbina, SimplePorudzbinaDTO.class);
 			return new ResponseEntity<SimplePorudzbinaDTO>(porudzbinaDTO, HttpStatus.OK);
