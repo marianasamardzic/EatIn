@@ -199,4 +199,36 @@ public class AdminController {
 			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
 		}
 	}
+	
+	@ApiOperation(value = "Azuriranje dostavljaca")
+	@PutMapping("admin/update/dostavljac/{id}")
+	public ResponseEntity<String> updateDostavljac(@Validated @RequestBody DostavljacNoIdDTO dostavljacNoIdDTO, @PathVariable int id) {
+
+		Korisnik korisnik = this.korisnikRepository.getOne(id);
+
+		if(korisnik.getUloga().getIdUloge() != 3)
+		{
+			return new ResponseEntity<String>("Korisnik doesn't have dostavljac role", HttpStatus.NOT_FOUND);
+		}
+	
+		else
+		{
+			Dostavljac dostavljac = this.dostavljacRepository.getOne(id);
+			korisnik.setEmailKorisnika(dostavljacNoIdDTO.getKorisnik().getEmailKorisnika());
+			korisnik.setLozinkaKorisnika(dostavljacNoIdDTO.getKorisnik().getLozinkaKorisnika());
+			korisnik.setImeKorisnika(dostavljacNoIdDTO.getKorisnik().getImeKorisnika());
+			korisnik.setPrezimeKorisnika(dostavljacNoIdDTO.getKorisnik().getPrezimeKorisnika());
+			korisnik.setTelefonKorisnika(dostavljacNoIdDTO.getKorisnik().getTelefonKorisnika());
+
+			dostavljac.setPrevoznoSredstvo(dostavljacNoIdDTO.getPrevoznoSredstvo());
+	
+			this.korisnikRepository.save(korisnik);
+			this.dostavljacRepository.save(dostavljac);
+			
+			KorisnikDTO dto = ObjectMapperUtils.map(korisnik, KorisnikDTO.class);
+			DostavljacDTO ddto = ObjectMapperUtils.map(dostavljac, DostavljacDTO.class);
+
+			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
+		}
+	}
 }
