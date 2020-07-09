@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
 						"/restoran/{id}",
 						"/tip-artikla",
-						"/tip-restorana")
+						"/tip-restorana", "/uploadFile", "/uploadMultipleFiles", "/downloadFile/{fileName:.+}")
 				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();
