@@ -39,7 +39,9 @@ import com.eatin.error.CustomException;
 import com.eatin.jpa.Dostavljac;
 import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Porudzbina;
+import com.eatin.jpa.Restoran;
 import com.eatin.jpa.Uloga;
+import com.eatin.jpa.Zaposleni;
 import com.eatin.repository.DostavljacRepository;
 import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.RestoranRepository;
@@ -227,6 +229,41 @@ public class AdminController {
 			
 			KorisnikDTO dto = ObjectMapperUtils.map(korisnik, KorisnikDTO.class);
 			DostavljacDTO ddto = ObjectMapperUtils.map(dostavljac, DostavljacDTO.class);
+
+			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "Azuriranje zaposlenog")
+	@PutMapping("admin/update/zaposleni/{id}")
+	public ResponseEntity<String> updateZaposleni(@Validated @RequestBody ZaposleniNoIdDTO zaposleniNoIdDTO, @PathVariable int id) {
+
+		Korisnik korisnik = this.korisnikRepository.getOne(id);
+
+		if(korisnik.getUloga().getIdUloge() != 2)
+		{
+			return new ResponseEntity<String>("Korisnik doesn't have zaposleni role", HttpStatus.NOT_FOUND);
+		}
+	
+		else
+		{
+			Zaposleni zaposleni = this.zaposleniRepository.getOne(id);
+			Restoran restoran = this.restoranRepository.getOne(zaposleniNoIdDTO.getRestoran());
+			
+			korisnik.setEmailKorisnika(zaposleniNoIdDTO.getKorisnik().getEmailKorisnika());
+			korisnik.setLozinkaKorisnika(zaposleniNoIdDTO.getKorisnik().getLozinkaKorisnika());
+			korisnik.setImeKorisnika(zaposleniNoIdDTO.getKorisnik().getImeKorisnika());
+			korisnik.setPrezimeKorisnika(zaposleniNoIdDTO.getKorisnik().getPrezimeKorisnika());
+			korisnik.setTelefonKorisnika(zaposleniNoIdDTO.getKorisnik().getTelefonKorisnika());
+
+			zaposleni.setFunkcijaZaposlenog(zaposleniNoIdDTO.getFunkcijaZaposlenog());
+			zaposleni.setRestoran(restoran);
+	
+			this.korisnikRepository.save(korisnik);
+			this.zaposleniRepository.save(zaposleni);
+			
+			KorisnikDTO dto = ObjectMapperUtils.map(korisnik, KorisnikDTO.class);
+			ZaposleniDTO ddto = ObjectMapperUtils.map(zaposleni, ZaposleniDTO.class);
 
 			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
 		}
