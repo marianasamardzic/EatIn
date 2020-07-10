@@ -53,13 +53,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}").hasAuthority("Zaposleni")
 				// admin
 				.antMatchers("/admin/register/dostavljac", "/admin/register/admin", "/admin/register/zaposleni",
-						"/porudzbina", "/porudzbina/{id}")
+						"/porudzbina", "/porudzbina/{id}",
+						"/admin/dostavljac",
+						"/admin/zaposleni",
+						"/admin/update/admin/{id}",
+						"/admin/update/klijent/{id}",
+						"/admin/update/dostavljac/{id}",
+						"/admin/update/zaposleni/{id}",
+						"/admin/delete/korisnici/{id}")
 				.hasAuthority("Admin")
 				// permit all
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
 						"/restoran/{id}",
 						"/tip-artikla",
-						"/tip-restorana", "/uploadFile", "/uploadMultipleFiles", "/downloadFile/{fileName:.+}")
+						"/tip-restorana")
 				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();

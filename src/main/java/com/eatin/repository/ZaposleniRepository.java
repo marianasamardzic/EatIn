@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.eatin.jpa.Zaposleni;
 
-
 public interface ZaposleniRepository extends JpaRepository<Zaposleni, Integer> {
 
+	Collection<Zaposleni> findByKorisnik_idKorisnika(int korisnik);
 
 }
