@@ -59,7 +59,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/admin/update/admin/{id}",
 						"/admin/update/klijent/{id}",
 						"/admin/update/dostavljac/{id}",
-						"/admin/update/zaposleni/{id}")
+						"/admin/update/zaposleni/{id}",
+						"/admin/delete/korisnici/{id}")
 				.hasAuthority("Admin")
 				// permit all
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",

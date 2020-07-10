@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -266,6 +267,23 @@ public class AdminController {
 			ZaposleniDTO ddto = ObjectMapperUtils.map(zaposleni, ZaposleniDTO.class);
 
 			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
+		}
+	}
+	
+	@ApiOperation(value = "Brisanje korisnika - postavljanje aktuelno na 0")
+	@DeleteMapping("admin/delete/korisnici/{id}")
+	public ResponseEntity<String> deleteKorisnik(@PathVariable int id) {
+		
+		Korisnik korisnik = this.korisnikRepository.getOne(id);
+		if(korisnik.getAktivan() == false)
+		{
+			return new ResponseEntity<String>("Korisnik is already deleted", HttpStatus.NOT_FOUND);			
+		}
+		else 
+		{
+			korisnik.setAktivan(false);
+			this.korisnikRepository.save(korisnik);
+			return new ResponseEntity<String>("Deleted successfully", HttpStatus.OK);
 		}
 	}
 }
