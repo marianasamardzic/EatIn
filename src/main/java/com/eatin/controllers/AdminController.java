@@ -117,7 +117,7 @@ public class AdminController {
 	@PostMapping("admin/register/zaposleni")
 	public ResponseEntity<String> registerUser(@Valid @RequestBody ZaposleniNoIdDTO zaposleniNoIdDTO) throws Exception {
 		
-		if(restoranRepository.findAllByidRestorana(zaposleniNoIdDTO.getRestoran()).isEmpty()) {	
+		if(restoranRepository.findAllByidRestorana(zaposleniNoIdDTO.getRestoranId()).isEmpty()) {	
 			return new ResponseEntity<String>("Restoran doesn't exist", HttpStatus.NOT_FOUND);
 		}
 		else {
@@ -133,7 +133,7 @@ public class AdminController {
 			
 			jdbcTemplate
 			.execute("insert into Dostava.Zaposleni(id_zaposlenog, funkcija_zaposlenog, id_restorana)"
-					+ " values(" + sacuvaniKorisnik.getIdKorisnika() + ", '" + zaposleniNoIdDTO.getFunkcijaZaposlenog()+ "', " + zaposleniNoIdDTO.getRestoran() + ");");
+					+ " values(" + sacuvaniKorisnik.getIdKorisnika() + ", '" + zaposleniNoIdDTO.getFunkcijaZaposlenog()+ "', " + zaposleniNoIdDTO.getRestoranId() + ");");
 
 			return new ResponseEntity<String>("Successfully added", HttpStatus.OK);
 		}
