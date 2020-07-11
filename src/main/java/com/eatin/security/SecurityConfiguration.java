@@ -43,15 +43,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				// authorize requests
 				.and().authorizeRequests()
+				.antMatchers("/profil").hasAnyAuthority("Klijent", "Zaposleni", "Dostavljac", "Admin")
 				// klijent
-				.antMatchers("/lokacija", "/klijent-porudzbina", "/profil").hasAuthority("Klijent")
+				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
 				// dostavljac
 				.antMatchers("/dostavljac-porudzbina", "/dostavljac-porudzbina-isporucena/{id}}",
-						"/dostavljac-porudzbina-prihvacena/{id}}", "/dostavljac-porudzbina-gotova",
-						"/profil")
+						"/dostavljac-porudzbina-prihvacena/{id}}", "/dostavljac-porudzbina-gotova")
 				.hasAuthority("Dostavljac")
 				// zaposleni
-				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}", "/profil").hasAuthority("Zaposleni")
+				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}").hasAuthority("Zaposleni")
 				// admin
 				.antMatchers("/admin/register/dostavljac", "/admin/register/admin", "/admin/register/zaposleni",
 						"/porudzbina", "/porudzbina/{id}",
@@ -63,8 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/admin/update/klijent/{id}",
 						"/admin/update/dostavljac/{id}",
 						"/admin/update/zaposleni/{id}",
-						"/admin/delete/korisnici/{id}",
-						"/profil")
+						"/admin/delete/korisnici/{id}")
 				.hasAuthority("Admin")
 				// permit all
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
