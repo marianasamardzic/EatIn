@@ -249,7 +249,7 @@ public class AdminController {
 		else
 		{
 			Zaposleni zaposleni = this.zaposleniRepository.getOne(id);
-			Restoran restoran = this.restoranRepository.getOne(zaposleniNoIdDTO.getRestoran());
+			Restoran restoran = this.restoranRepository.getOne(zaposleniNoIdDTO.getRestoranId());
 			
 			korisnik.setEmailKorisnika(zaposleniNoIdDTO.getKorisnik().getEmailKorisnika());
 			korisnik.setLozinkaKorisnika(zaposleniNoIdDTO.getKorisnik().getLozinkaKorisnika());

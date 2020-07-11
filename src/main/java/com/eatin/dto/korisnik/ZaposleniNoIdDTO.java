@@ -10,4 +10,6 @@ public class ZaposleniNoIdDTO {
 	private String funkcijaZaposlenog;
 	private KorisnikDTO korisnik;
 	private Integer restoran;
+	private int restoranId;
+
 }
