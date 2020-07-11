@@ -32,6 +32,7 @@ import com.eatin.dto.korisnik.DostavljacDTO;
 import com.eatin.dto.korisnik.DostavljacNoIdDTO;
 import com.eatin.dto.korisnik.KorisnikDTO;
 import com.eatin.dto.korisnik.KorisnikNoEmailDTO;
+import com.eatin.dto.korisnik.KorisnikWithIdDTO;
 import com.eatin.dto.korisnik.ZaposleniDTO;
 import com.eatin.dto.korisnik.ZaposleniNoIdDTO;
 import com.eatin.dto.porudzbina.SimplePorudzbinaDTO;
@@ -151,6 +152,20 @@ public class AdminController {
 	public Collection<ZaposleniDTO> getAllZaposleni() {
 
 		return ObjectMapperUtils.mapAll(zaposleniRepository.findAll(), ZaposleniDTO.class);
+	}
+	
+	@ApiOperation(value = "Izlistavanje svih admina")
+	@GetMapping("admin/admin")
+	public Collection<KorisnikWithIdDTO> getAllAdmin() {
+
+		return ObjectMapperUtils.mapAll(korisnikRepository.findByUloga_idUloge(4), KorisnikWithIdDTO.class);
+	}
+	
+	@ApiOperation(value = "Izlistavanje svih klijenata")
+	@GetMapping("admin/klijent")
+	public Collection<KorisnikWithIdDTO> getAllKlijent() {
+
+		return ObjectMapperUtils.mapAll(korisnikRepository.findByUloga_idUloge(1), KorisnikWithIdDTO.class);
 	}
 	
 	@ApiOperation(value = "Azuriranje admina")
