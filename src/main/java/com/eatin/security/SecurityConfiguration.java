@@ -56,6 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/porudzbina", "/porudzbina/{id}",
 						"/admin/dostavljac",
 						"/admin/zaposleni",
+						"/admin/admin",
+						"/admin/klijent",
 						"/admin/update/admin/{id}",
 						"/admin/update/klijent/{id}",
 						"/admin/update/dostavljac/{id}",
