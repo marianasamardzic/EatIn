@@ -10,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,25 +19,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.auth.AuthenticationRequest;
-import com.eatin.dto.auth.AuthenticationResponse;
 import com.eatin.dto.korisnik.DostavljacDTO;
 import com.eatin.dto.korisnik.DostavljacNoIdDTO;
 import com.eatin.dto.korisnik.KorisnikDTO;
-import com.eatin.dto.korisnik.KorisnikNoEmailDTO;
 import com.eatin.dto.korisnik.KorisnikWithIdDTO;
 import com.eatin.dto.korisnik.ZaposleniDTO;
 import com.eatin.dto.korisnik.ZaposleniNoIdDTO;
-import com.eatin.dto.porudzbina.SimplePorudzbinaDTO;
-import com.eatin.enums.StatusPorudzbine;
-import com.eatin.error.CustomException;
 import com.eatin.jpa.Dostavljac;
 import com.eatin.jpa.Korisnik;
-import com.eatin.jpa.Porudzbina;
 import com.eatin.jpa.Restoran;
 import com.eatin.jpa.Uloga;
 import com.eatin.jpa.Zaposleni;
@@ -190,6 +179,7 @@ public class AdminController {
 			this.korisnikRepository.save(korisnik);
 			KorisnikDTO dto = ObjectMapperUtils.map(korisnik, KorisnikDTO.class);
 			return new ResponseEntity<String>("Updated successfully", HttpStatus.OK);
+
 		}
 	}
 	
