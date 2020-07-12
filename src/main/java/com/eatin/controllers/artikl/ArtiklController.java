@@ -1,4 +1,4 @@
-package com.eatin.controllers;
+package com.eatin.controllers.artikl;
 
 import java.util.ArrayList;
 import java.util.Collection;
