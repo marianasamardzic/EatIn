@@ -2,8 +2,8 @@ package com.eatin.dto.porudzbina;
 
 import java.util.List;
 
-import com.eatin.dto.MeraDTO;
 import com.eatin.dto.artikl.ArtiklDTO;
+import com.eatin.dto.mera.MeraDTO;
 
 import lombok.Data;
 

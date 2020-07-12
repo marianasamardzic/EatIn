@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
-import com.eatin.dto.MeraDTO;
 import com.eatin.dto.PrilogDTO;
 import com.eatin.dto.artikl.ArtiklDTO;
 import com.eatin.dto.artikl.ExtendedArtiklDTO;
+import com.eatin.dto.mera.MeraDTO;
 import com.eatin.enums.SortByArtikl;
 import com.eatin.jpa.Artikl;
 import com.eatin.jpa.Mera;

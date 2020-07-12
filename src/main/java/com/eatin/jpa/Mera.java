@@ -26,7 +26,7 @@ public class Mera implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="MERA_IDMERE_GENERATOR" )
+	@SequenceGenerator(name = "MERA_IDMERE_GENERATOR", sequenceName = "Mera_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MERA_IDMERE_GENERATOR")
 	@Column(name="id_mere")
 	private int idMere;

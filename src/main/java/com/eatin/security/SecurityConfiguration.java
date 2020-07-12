@@ -43,7 +43,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				// authorize requests
 				.and().authorizeRequests()
+				// svi
 				.antMatchers("/profil").hasAnyAuthority("Klijent", "Zaposleni", "Admin", "Dostavljac")
+				// zaposleni i admin
+				.antMatchers("/mera", "/mera/{id}").hasAnyAuthority("Zaposleni", "Admin")
 				// klijent
 				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
 				// dostavljac
