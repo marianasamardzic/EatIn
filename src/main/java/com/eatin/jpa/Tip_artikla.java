@@ -26,7 +26,7 @@ public class Tip_artikla implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="TIP_ARTIKLA_IDTIPAARTIKLA_GENERATOR" )
+	@SequenceGenerator(name="TIP_ARTIKLA_IDTIPAARTIKLA_GENERATOR", sequenceName = "Tip_artikla_sequence", allocationSize = 1 )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TIP_ARTIKLA_IDTIPAARTIKLA_GENERATOR")
 	@Column(name="id_tipa_artikla")
 	private int idTipaArtikla;
