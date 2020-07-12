@@ -31,6 +31,7 @@ import com.eatin.dto.LokacijaDTO;
 import com.eatin.dto.LokacijaNoIdDTO;
 import com.eatin.dto.restoran.RestoranDTO;
 import com.eatin.dto.restoran.RestoranNoIdDTO;
+import com.eatin.dto.restoran.SimpleRestoranDTO;
 import com.eatin.dto.restoran.TipRestoranaDTO;
 import com.eatin.enums.SortByRestoran;
 import com.eatin.error.CustomException;
@@ -214,6 +215,13 @@ public class RestoranController {
 			jeTipaRepository.save(jeTipa);
 		}
 		return new ResponseEntity<RestoranNoIdDTO>(restoran, HttpStatus.CREATED);
+	}
+
+	@ApiOperation("Vraca id-jeve i nazive svih restorana")
+	@GetMapping("restoran-admin")
+	public ResponseEntity<List<SimpleRestoranDTO>> getAllSimpleRestoran() {
+		List<SimpleRestoranDTO> dtos = ObjectMapperUtils.mapAll(this.restoranRepository.findAll(), SimpleRestoranDTO.class);
+		return new ResponseEntity<List<SimpleRestoranDTO>>(dtos, HttpStatus.OK);
 	}
 
 	@ApiOperation("Vraca restoran u kom radi zaposleni")
