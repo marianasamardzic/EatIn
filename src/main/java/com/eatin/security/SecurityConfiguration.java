@@ -23,7 +23,7 @@ import com.eatin.filters.JwtRequestFilter;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	UserDetailsService  userDetailsService;
 	@Autowired
@@ -43,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				// authorize requests
 				.and().authorizeRequests()
-				.antMatchers("/profil").hasAnyAuthority("Klijent", "Zaposleni", "Admin")
+				.antMatchers("/profil").hasAnyAuthority("Klijent", "Zaposleni", "Admin", "Dostavljac")
 				// klijent
 				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
 				// dostavljac
