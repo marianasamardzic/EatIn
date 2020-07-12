@@ -26,7 +26,7 @@ public class Prilog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="PRILOG_IDPRILOGA_GENERATOR" )
+	@SequenceGenerator(name="PRILOG_IDPRILOGA_GENERATOR", sequenceName = "Prilog_sequence", allocationSize = 1  )
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PRILOG_IDPRILOGA_GENERATOR")
 	@Column(name="id_priloga")
 	private int idPriloga;
