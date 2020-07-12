@@ -7,10 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.restoran.TipRestoranaDTO;
+import com.eatin.dto.restoran.TipRestoranaNoIdDTO;
+import com.eatin.jpa.Tip_restorana;
 import com.eatin.repository.TipRestoranaRepository;
 
 import io.swagger.annotations.ApiOperation;
@@ -29,5 +33,14 @@ public class TipRestoranaController {
 				TipRestoranaDTO.class);
 
 		return new ResponseEntity<Collection<TipRestoranaDTO>>(tipoviRestoranaDTO, HttpStatus.OK);
+	}
+	
+	@PostMapping("tip-restorana-admin")
+	@ApiOperation("Kreira novi tip restorana")
+	public ResponseEntity<TipRestoranaNoIdDTO> addTipRestorana(@RequestBody TipRestoranaNoIdDTO tip) {
+		Tip_restorana tipEntity = new Tip_restorana();
+		tipEntity.setOpisTipaRestorana(tip.getOpisTipaRestorana());
+		this.tipRestoranaRepository.save(tipEntity);
+		return new ResponseEntity<TipRestoranaNoIdDTO>(tip, HttpStatus.CREATED);
 	}
 }

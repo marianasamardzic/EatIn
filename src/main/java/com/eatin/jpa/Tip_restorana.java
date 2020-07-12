@@ -26,7 +26,7 @@ public class Tip_restorana implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="TIP_RESTORANA_IDTIPARESTORANA_GENERATOR" )
+	@SequenceGenerator(name = "TIP_RESTORANA_IDTIPARESTORANA_GENERATOR", sequenceName = "Tip_restorana_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TIP_RESTORANA_IDTIPARESTORANA_GENERATOR")
 	@Column(name="id_tipa_restorana")
 	private int idTipaRestorana;
