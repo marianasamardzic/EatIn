@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,19 +35,23 @@ import com.eatin.dto.restoran.TipRestoranaDTO;
 import com.eatin.enums.SortByRestoran;
 import com.eatin.error.CustomException;
 import com.eatin.jpa.Je_tipa;
+import com.eatin.jpa.Korisnik;
 import com.eatin.jpa.Lokacija;
 import com.eatin.jpa.RadnoVreme;
 import com.eatin.jpa.Restoran;
 import com.eatin.jpa.Restoran_se_nalazi;
 import com.eatin.jpa.Tip_datuma;
 import com.eatin.jpa.Tip_restorana;
+import com.eatin.jpa.Zaposleni;
 import com.eatin.repository.JeTipaRepository;
+import com.eatin.repository.KorisnikRepository;
 import com.eatin.repository.LokacijaRepository;
 import com.eatin.repository.RadnoVremeRepository;
 import com.eatin.repository.RestoranRepository;
 import com.eatin.repository.RestoranSeNalaziRepository;
 import com.eatin.repository.TipDatumaRepository;
 import com.eatin.repository.TipRestoranaRepository;
+import com.eatin.repository.ZaposleniRepository;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -68,6 +74,10 @@ public class RestoranController {
 	private TipDatumaRepository tipDatumaRepository;
 	@Autowired
 	private TipRestoranaRepository tipRestoranaRepository;
+	@Autowired
+	private KorisnikRepository korisnikRepository;
+	@Autowired
+	private ZaposleniRepository zaposleniRepository;
 
 	@ApiOperation("Izlistava sve restorane")
 	@GetMapping("restoran")
@@ -204,6 +214,39 @@ public class RestoranController {
 			jeTipaRepository.save(jeTipa);
 		}
 		return new ResponseEntity<RestoranNoIdDTO>(restoran, HttpStatus.CREATED);
+	}
+
+	@ApiOperation("Vraca restoran u kom radi zaposleni")
+	@GetMapping("restoran-zaposleni")
+	public ResponseEntity<RestoranDTO> getRestoranForZaposleni() {
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+
+			// izvlacenje zaposlenog
+			String username = ((UserDetails) principal).getUsername();
+			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
+			Zaposleni zaposleni = this.zaposleniRepository.getOne(korisnik.getIdKorisnika());
+
+			// mapiranje
+			RestoranDTO restoranDTO = ObjectMapperUtils.map(zaposleni.getRestoran(), RestoranDTO.class);
+
+			// lokacije
+			Collection<Restoran_se_nalazi> nalazi = this.restoranSeNalaziRepository
+					.findByRestoran_idRestorana(zaposleni.getRestoran().getIdRestorana());
+			List<Lokacija> lokacije = new ArrayList<>();
+			Iterator<Restoran_se_nalazi> nalaziIterator = nalazi.iterator();
+			while (nalaziIterator.hasNext()) {
+				lokacije.add(nalaziIterator.next().getLokacija());
+			}
+
+			List<LokacijaDTO> lokacijeDTO = ObjectMapperUtils.mapAll(lokacije, LokacijaDTO.class);
+			restoranDTO.setLokacije(lokacijeDTO);
+
+			return new ResponseEntity<RestoranDTO>(restoranDTO, HttpStatus.OK);
+
+		}
+		return null;
 	}
 
 }
