@@ -207,7 +207,7 @@ public class ArtiklZaposleniController {
 	}
 
 	@ApiOperation("Dodaje meru artiklu")
-	@PostMapping("artikl-mera/{id}")
+	@PostMapping("artikl-mera/{artiklId}")
 	public ResponseEntity<String> addMera(@PathVariable int artiklId, @RequestBody MeraDTO mera) throws Exception {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
