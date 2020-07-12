@@ -1,5 +1,6 @@
 package com.eatin.controllers.artikl;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -10,10 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
@@ -127,6 +130,7 @@ public class ArtiklZaposleniController {
 
 	@ApiOperation("Menja artikl sa datim id-jem")
 	@PutMapping("artikl-zaposleni/{id}")
+	@Transactional
 	public ResponseEntity<ArtiklDTO> updateArtikl(@PathVariable int id, @RequestBody PutArtiklDTO artikl)
 			throws Exception {
 
@@ -164,6 +168,88 @@ public class ArtiklZaposleniController {
 			this.artiklRepository.save(entity.get());
 
 			return new ResponseEntity<ArtiklDTO>(ObjectMapperUtils.map(entity.get(), ArtiklDTO.class), HttpStatus.OK);
+		}
+		return null;
+	}
+
+	@ApiOperation("Brise mera sa artikla")
+	@DeleteMapping("artikl-mera")
+	@Transactional
+	public ResponseEntity<String> deleteMera(@RequestParam int idArtikla, @RequestParam int idMere) throws Exception {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+
+			// izvlacenje zaposlenog
+			String username = ((UserDetails) principal).getUsername();
+			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
+			Zaposleni zaposleni = this.zaposleniRepository.getOne(korisnik.getIdKorisnika());
+
+			// provera da li artikl postoji
+			Optional<Artikl> artikl = this.artiklRepository.findById(idArtikla);
+			if (!artikl.isPresent()) {
+				throw new CustomException("Ne postoji artikl sa datim id-jem");
+			}
+
+			// provera da li artikl pripada restoranu u kome zaposleni radi
+			if (!(artikl.get().getRestoran().getIdRestorana() == zaposleni.getRestoran().getIdRestorana())) {
+				throw new CustomException("Artikl ne pripada restoranu u kome radi zaposleni");
+			}
+
+			// brisanje veza lokacija-
+			Long count = this.mozeBitiMereRepository.deleteByArtikl_idArtiklaAndMera_idMere(idArtikla, idMere);
+			if (count > 0) {
+				return new ResponseEntity<String>("Uspesno obrisano", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("Artikl ne sadrzi datu meru", HttpStatus.NOT_FOUND);
+			}
+		}
+		return null;
+	}
+
+	@ApiOperation("Dodaje meru artiklu")
+	@PostMapping("artikl-mera/{id}")
+	public ResponseEntity<String> addMera(@PathVariable int artiklId, @RequestBody MeraDTO mera) throws Exception {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+
+			// izvlacenje zaposlenog
+			String username = ((UserDetails) principal).getUsername();
+			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
+			Zaposleni zaposleni = this.zaposleniRepository.getOne(korisnik.getIdKorisnika());
+
+			// provera da li artikl postoji
+			Optional<Artikl> artikl = this.artiklRepository.findById(artiklId);
+			if (!artikl.isPresent()) {
+				throw new CustomException("Ne postoji artikl sa datim id-jem");
+			}
+
+			// provera da li artikl pripada restoranu u kome zaposleni radi
+			if (!(artikl.get().getRestoran().getIdRestorana() == zaposleni.getRestoran().getIdRestorana())) {
+				throw new CustomException("Artikl ne pripada restoranu u kome radi zaposleni");
+			}
+
+			// provera da li mera postoji
+			Optional<Mera> fetchedMera = this.meraRepository.findById(mera.getIdMere());
+			if (!fetchedMera.isPresent()) {
+				throw new CustomException("Ne postoji mera sa datim id-jem");
+			}
+
+			// provera da li postoji veza izmedju mere i artikla
+			Collection<Moze_biti_mere> moze = this.mozeBitiMereRepository
+					.findByArtikl_IdArtiklaAnd_Mera_idMere(artikl.get().getIdArtikla(), fetchedMera.get().getIdMere());
+			if (moze.size() > 0) {
+				throw new CustomException("Artikl vec sadrzi ovu meru");
+			}
+
+			// cuavnje u bazi
+			Moze_biti_mere veza = new Moze_biti_mere();
+			veza.setArtikl(artikl.get());
+			veza.setMera(fetchedMera.get());
+			this.mozeBitiMereRepository.save(veza);
+
+			// vracanje
+			return new ResponseEntity<String>("Uspesno dodato", HttpStatus.OK);
+
 		}
 		return null;
 	}
