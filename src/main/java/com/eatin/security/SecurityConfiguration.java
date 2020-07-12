@@ -56,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// zaposleni
 				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}", "/restoran-zaposleni",
 						"/restoran-lokacije/{id}", "/restoran-lokacije", "restoran-tip", "/restoran-tip/{id}",
-						"/restoran-vreme", "/restoran-vreme/{id}")
+						"/restoran-vreme", "/restoran-vreme/{id}", "/artikl-zaposleni")
 				.hasAuthority("Zaposleni")
 				// admin
 				.antMatchers("/admin/register/dostavljac", "/admin/register/admin", "/admin/register/zaposleni",
@@ -79,7 +79,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
 						"/restoran/{id}",
 						"/tip-artikla",
-						"/tip-restorana", "/tip-datuma", "/artikl-zaposleni")
+						"/tip-restorana", "/tip-datuma")
 				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();

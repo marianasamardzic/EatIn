@@ -25,7 +25,7 @@ public class Moze_sadrzati_priloge implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="MOZE_SADRZATI_PRILOGE_IDMOZESADRZATIPRILOGE_GENERATOR" )
+	@SequenceGenerator(name = "MOZE_SADRZATI_PRILOGE_IDMOZESADRZATIPRILOGE_GENERATOR", sequenceName = "Moze_sadrzati_priloge_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOZE_SADRZATI_PRILOGE_IDMOZESADRZATIPRILOGE_GENERATOR")
 	@Column(name="id_moze_sadrzati_priloge")
 	private int idMozeSadrzatiPriloge;

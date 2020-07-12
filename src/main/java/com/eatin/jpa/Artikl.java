@@ -29,7 +29,7 @@ public class Artikl implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="ARTIKL_IDARTIKLA_GENERATOR" )
+	@SequenceGenerator(name = "ARTIKL_IDARTIKLA_GENERATOR", sequenceName = "Artikl_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ARTIKL_IDARTIKLA_GENERATOR")
 	@Column(name="id_artikla")
 	private int idArtikla;

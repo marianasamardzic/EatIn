@@ -25,7 +25,7 @@ public class Moze_biti_mere implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="MOZE_BITI_MERE_IDMOZEBITIMERE_GENERATOR" )
+	@SequenceGenerator(name = "MOZE_BITI_MERE_IDMOZEBITIMERE_GENERATOR", sequenceName = "Moze_biti_mere_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MOZE_BITI_MERE_IDMOZEBITIMERE_GENERATOR")
 	@Column(name="id_moze_biti_mere")
 	private int idMozeBitiMere;
