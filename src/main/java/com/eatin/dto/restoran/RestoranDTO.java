@@ -12,7 +12,7 @@ public class RestoranDTO {
 	private int idRestorana;
 	private String nazivRestorana;
 	private String opisRestorana;
-	private int pibRestorana;
+	private String pibRestorana;
 	private String slikaRestorana;
 	private String telefonRestorana;
 	private List<LokacijaDTO> lokacije;

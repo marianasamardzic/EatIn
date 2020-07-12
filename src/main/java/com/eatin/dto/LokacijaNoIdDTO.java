@@ -9,9 +9,8 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class LokacijaDTO {
+public class LokacijaNoIdDTO {
 
-	private int idLokacije;
 	@NotNull(message = "Polje broj je obavezno")
 	@NotEmpty(message = "Polje broj ne sme biti prazno")
 	private String broj;

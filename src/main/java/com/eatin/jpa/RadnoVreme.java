@@ -28,7 +28,7 @@ public class RadnoVreme implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RADI_IDRADI_GENERATOR" )
+	@SequenceGenerator(name = "RADI_IDRADI_GENERATOR", sequenceName = "Radi_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RADI_IDRADI_GENERATOR")
 	@Column(name="id_radi")
 	private int idRadi;

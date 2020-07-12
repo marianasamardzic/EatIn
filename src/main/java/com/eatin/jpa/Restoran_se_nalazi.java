@@ -25,7 +25,7 @@ public class Restoran_se_nalazi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="RESTORAN_SE_NALAZI_IDRESTORANSENALAZI_GENERATOR" )
+	@SequenceGenerator(name = "RESTORAN_SE_NALAZI_IDRESTORANSENALAZI_GENERATOR", sequenceName = "Restoran_se_nalazi_sequence", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RESTORAN_SE_NALAZI_IDRESTORANSENALAZI_GENERATOR")
 	@Column(name="id_restoran_se_nalazi")
 	private int idRestoranSeNalazi;

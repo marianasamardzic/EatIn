@@ -63,13 +63,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/admin/update/klijent/{id}",
 						"/admin/update/dostavljac/{id}",
 						"/admin/update/zaposleni/{id}",
-						"/admin/delete/korisnici/{id}")
+						"/admin/delete/korisnici/{id}", "/restoran-admin")
 				.hasAuthority("Admin")
 				// permit all
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
 						"/restoran/{id}",
 						"/tip-artikla",
-						"/tip-restorana")
+						"/tip-restorana", "/tip-datuma")
 				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();
