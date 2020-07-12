@@ -236,7 +236,7 @@ public class ArtiklZaposleniController {
 
 			// provera da li postoji veza izmedju mere i artikla
 			Collection<Moze_biti_mere> moze = this.mozeBitiMereRepository
-					.findByArtikl_IdArtiklaAnd_Mera_idMere(artikl.get().getIdArtikla(), fetchedMera.get().getIdMere());
+					.findByArtikl_IdArtiklaAndMera_idMere(artikl.get().getIdArtikla(), fetchedMera.get().getIdMere());
 			if (moze.size() > 0) {
 				throw new CustomException("Artikl vec sadrzi ovu meru");
 			}
