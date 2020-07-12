@@ -57,7 +57,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/zaposleni-porudzbina", "/zaposleni-porudzbina-gotova/{id}", "/restoran-zaposleni",
 						"/restoran-lokacije/{id}", "/restoran-lokacije", "restoran-tip", "/restoran-tip/{id}",
 						"/restoran-vreme", "/restoran-vreme/{id}", "/artikl-zaposleni", "/artikl-zaposleni/{id}",
-						"/artikl-mera", "/artikl-mera/{artiklId}")
+						"/artikl-mera", "/artikl-mera/{artiklId}",
+						"/artikl-prilog", "/artikl-prilog/{artiklId}")
 				.hasAuthority("Zaposleni")
 				// admin
 				.antMatchers("/admin/register/dostavljac", "/admin/register/admin", "/admin/register/zaposleni",
