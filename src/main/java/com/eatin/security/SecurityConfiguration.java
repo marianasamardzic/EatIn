@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// svi
 				.antMatchers("/profil").hasAnyAuthority("Klijent", "Zaposleni", "Admin", "Dostavljac")
 				// zaposleni i admin
-				.antMatchers("/mera", "/mera/{id}").hasAnyAuthority("Zaposleni", "Admin")
+				.antMatchers("/mera", "/mera/{id}", "/prilog").hasAnyAuthority("Zaposleni", "Admin")
 				// klijent
 				.antMatchers("/lokacija", "/klijent-porudzbina").hasAuthority("Klijent")
 				// dostavljac
@@ -69,8 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						"/admin/update/klijent/{id}",
 						"/admin/update/dostavljac/{id}",
 						"/admin/update/zaposleni/{id}",
-						"/admin/delete/korisnici/{id}", 
-						"/restoran-admin", 
+						"/admin/delete/korisnici/{id}",
+						"/restoran-admin",
 						"/tip-restorana-admin",
 						"/tip-artikla-admin",
 						"/tip-artikla-admin")
@@ -79,7 +79,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login", "/register", "/confirm-account", "/artikl", "/artikl/{id}", "/restoran",
 						"/restoran/{id}",
 						"/tip-artikla",
-						"/tip-restorana", "/tip-datuma")
+						"/tip-restorana",
+						"/tip-datuma")
 				.permitAll()
 				// authenticated
 				.anyRequest().authenticated();
