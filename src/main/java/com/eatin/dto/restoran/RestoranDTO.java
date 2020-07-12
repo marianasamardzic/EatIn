@@ -17,4 +17,5 @@ public class RestoranDTO {
 	private String telefonRestorana;
 	private List<LokacijaDTO> lokacije;
 	private List<RadnoVremeDTO> radnoVreme;
+	private List<TipRestoranaDTO> tipRestorana;
 }
