@@ -10,12 +10,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.PrilogDTO;
+import com.eatin.dto.artikl.ArtiklDTO;
 import com.eatin.dto.artikl.ArtiklNoIdDTO;
+import com.eatin.dto.artikl.PutArtiklDTO;
 import com.eatin.dto.mera.MeraDTO;
 import com.eatin.error.CustomException;
 import com.eatin.jpa.Artikl;
@@ -116,6 +121,49 @@ public class ArtiklZaposleniController {
 				this.mozeBitiMereRepository.save(imaMere);
 			}
 			return new ResponseEntity<ArtiklNoIdDTO>(artikl, HttpStatus.CREATED);
+		}
+		return null;
+	}
+
+	@ApiOperation("Menja artikl sa datim id-jem")
+	@PutMapping("artikl-zaposleni/{id}")
+	public ResponseEntity<ArtiklDTO> updateArtikl(@PathVariable int id, @RequestBody PutArtiklDTO artikl)
+			throws Exception {
+
+		// provera da li postoji ovaj artikl
+		Optional<Artikl> entity = this.artiklRepository.findById(id);
+		if (!entity.isPresent()) {
+			throw new CustomException("Ne postoji artikl sa datim id-jem");
+		}
+
+		// provera da li je artikl iz restorana u kom radi zaposleni
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+
+			String username = ((UserDetails) principal).getUsername();
+			Korisnik korisnik = this.korisnikRepository.findByEmailKorisnika(username);
+			Zaposleni zaposleni = this.zaposleniRepository.getOne(korisnik.getIdKorisnika());
+			Restoran restoran = zaposleni.getRestoran();
+			if (!(restoran.getIdRestorana() == entity.get().getRestoran().getIdRestorana())) {
+				throw new CustomException("Artikl nije iz restorana u kom radi zaposleni");
+			}
+
+			// menjanje artikla
+			entity.get().setCenaArtikla(artikl.getCenaArtikla());
+			entity.get().setSlikaArtikla(artikl.getSlikaArtikla());
+			entity.get().setNazivArtikla(artikl.getNazivArtikla());
+
+			// tip artikla
+			Optional<Tip_artikla> tip = tipArtiklaRepository.findById(artikl.getTipArtikla().getIdTipaArtikla());
+			if (!tip.isPresent()) {
+				throw new CustomException("Ne postoji tip artikla sa tim id-jem");
+			}
+			entity.get().setTipArtikla(tip.get());
+
+			// cuvanje artikla
+			this.artiklRepository.save(entity.get());
+
+			return new ResponseEntity<ArtiklDTO>(ObjectMapperUtils.map(entity.get(), ArtiklDTO.class), HttpStatus.OK);
 		}
 		return null;
 	}
