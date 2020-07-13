@@ -30,9 +30,12 @@ public class RestoranNoIdDTO {
 	@NotNull(message = "Polje telefonRestorana je obavezno")
 	@NotEmpty(message = "Polje telefonRestorana ne sme biti prazno")
 	private String telefonRestorana;
+	@NotNull(message = "Polje tipRestorana je obavezno")
 	private List<TipRestoranaDTO> tipRestorana;
+	@NotNull(message = "Polje radnoVreme je obavezno")
 	@Valid
 	private List<RadnoVremeDTO> radnoVreme;
 	@Valid
+	@NotNull(message = "Polje lokacije je obavezno")
 	private List<LokacijaNoIdDTO> lokacije;
 }

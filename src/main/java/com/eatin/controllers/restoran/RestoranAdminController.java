@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eatin.common.ObjectMapperUtils;
 import com.eatin.dto.LokacijaNoIdDTO;
+import com.eatin.dto.restoran.RadnoVremeDTO;
 import com.eatin.dto.restoran.RestoranNoIdDTO;
 import com.eatin.dto.restoran.SimpleRestoranDTO;
 import com.eatin.dto.restoran.TipRestoranaDTO;
@@ -39,7 +40,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class RestoranAdminController {
-	
+
 	@Autowired
 	private RestoranRepository restoranRepository;
 	@Autowired
@@ -55,29 +56,35 @@ public class RestoranAdminController {
 	@Autowired
 	private TipRestoranaRepository tipRestoranaRepository;
 
-
 	@ApiOperation("Kreira novi restoran")
 	@Transactional
 	@PostMapping("restoran-admin")
 	public ResponseEntity<RestoranNoIdDTO> addRestoran(@Validated @RequestBody RestoranNoIdDTO restoran)
 			throws Exception {
 		// save restorana
-		Restoran restoranEntity = ObjectMapperUtils.map(restoran, Restoran.class);
+		Restoran restoranEntity = new Restoran();
+		restoranEntity.setNazivRestorana(restoran.getNazivRestorana());
+		restoranEntity.setOpisRestorana(restoran.getOpisRestorana());
+		restoranEntity.setPibRestorana(restoran.getPibRestorana());
+		restoranEntity.setTelefonRestorana(restoran.getTelefonRestorana());
+		restoranEntity.setSlikaRestorana(restoran.getSlikaRestorana());
 		this.restoranRepository.save(restoranEntity);
 
 		// save radno vreme
-		Iterator<RadnoVreme> radnoVremeIterator = restoranEntity.getRadnoVreme().iterator();
-		while (radnoVremeIterator.hasNext()) {
-			RadnoVreme rv = radnoVremeIterator.next();
+		if (restoran.getRadnoVreme().size() > 0) {
+			Iterator<RadnoVremeDTO> radnoVremeIterator = restoran.getRadnoVreme().iterator();
+			while (radnoVremeIterator.hasNext()) {
+				RadnoVreme rv = ObjectMapperUtils.map(radnoVremeIterator.next(), RadnoVreme.class);
 
-			// provera da li postoji tip datuma
-			Optional<Tip_datuma> td = this.tipDatumaRepository.findById(rv.getTipDatuma().getIdTipaDatuma());
-			if (!td.isPresent()) {
-				throw new CustomException("Ne postoji tip datuma sa datim id-jem");
+				// provera da li postoji tip datuma
+				Optional<Tip_datuma> td = this.tipDatumaRepository.findById(rv.getTipDatuma().getIdTipaDatuma());
+				if (!td.isPresent()) {
+					throw new CustomException("Ne postoji tip datuma sa datim id-jem");
+				}
+
+				rv.setRestoran(restoranEntity);
+				this.radnoVremeRepository.save(rv);
 			}
-
-			rv.setRestoran(restoranEntity);
-			this.radnoVremeRepository.save(rv);
 		}
 
 		// save lokacije
